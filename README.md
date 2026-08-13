@@ -49,19 +49,27 @@ every time anyone pushes, which is what stops an assurance case from rotting the
 
 ## Setup
 
-Install the three tools from the jPipe site, in this order. Each page covers Homebrew, APT and Scoop,
-so pick the one line that matches your machine:
+Clone this repository, then install the three tools from the jPipe site, in this order. Each install
+page covers Homebrew, APT and Scoop, so pick the one line that matches your machine:
 
-1. **[Install the Compiler](https://www.jpipe.org/tutorials/install/compiler/)**, one package-manager
+1. Clone this repository, and work from inside it:
+
+   ```sh
+   $ git clone https://github.com/jpipe-mcscert/tutorial-re-2026.git
+   $ cd tutorial-re-2026
+   tutorial-re-2026 $
+   ```
+
+2. **[Install the Compiler](https://www.jpipe.org/tutorials/install/compiler/)**, one package-manager
    command, which brings Java and Graphviz along with it. Start here: the other two build on it.
-2. **[Install the IDE](https://www.jpipe.org/tutorials/install/ide/)**, the VS Code extension, which
+3. **[Install the IDE](https://www.jpipe.org/tutorials/install/ide/)**, the VS Code extension, which
    picks up the compiler you just installed with no configuration.
-3. For the **runner**, first needed in chapter 4 where models stop being only drawn and start being
+4. For the **runner**, first needed in chapter 4 where models stop being only drawn and start being
    executed, this repository pins its own copy rather than relying on a system-wide install, so that
    everyone in the room is on the same version:
 
    ```sh
-   pipenv sync --dev     # installs jpipe-runner exactly as pinned in Pipfile.lock
+   tutorial-re-2026 $ pipenv sync --dev   # installs jpipe-runner exactly as pinned in Pipfile.lock
    ```
 
    That needs **Python 3.13** and [pipenv](https://pipenv.pypa.io/).
