@@ -1,0 +1,64 @@
+{
+  "elements": [
+    {
+      "escaped": "the_model_is_ready_for_deployment",
+      "id": "deployable:claim",
+      "label": "The model is ready for deployment",
+      "type": "conclusion"
+    },
+    {
+      "escaped": "confront_the_report_s_measurements_to_the_80_bar",
+      "id": "deployable:threshold",
+      "label": "Confront the report's measurements to the 80% bar",
+      "type": "strategy"
+    },
+    {
+      "escaped": "a_report_is_available",
+      "id": "deployable:reporting",
+      "label": "a report is available",
+      "type": "sub-conclusion"
+    },
+    {
+      "escaped": "executing_the_model_on_the_dataset",
+      "id": "deployable:execution",
+      "label": "executing the model on the dataset",
+      "type": "strategy"
+    },
+    {
+      "escaped": "the_model_is_available",
+      "id": "deployable:model",
+      "label": "the model is available",
+      "type": "evidence"
+    },
+    {
+      "escaped": "the_training_dataset_is_available",
+      "id": "deployable:training_ds",
+      "label": "the training dataset is available",
+      "type": "evidence"
+    }
+  ],
+  "name": "deployable",
+  "type": "justification",
+  "relations": [
+    {
+      "source": "deployable:threshold",
+      "target": "deployable:claim"
+    },
+    {
+      "source": "deployable:execution",
+      "target": "deployable:reporting"
+    },
+    {
+      "source": "deployable:reporting",
+      "target": "deployable:threshold"
+    },
+    {
+      "source": "deployable:model",
+      "target": "deployable:execution"
+    },
+    {
+      "source": "deployable:training_ds",
+      "target": "deployable:execution"
+    }
+  ]
+}

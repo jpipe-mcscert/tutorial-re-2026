@@ -1,0 +1,25 @@
+justification fairness  {
+    conclusion fair           is "Fairness is ensured"
+    strategy   flip           is "Flip-rate is below 10%"
+    evidence   counterfactual is "Counterfactual dataset is available"
+    evidence   model          is "Model is available"
+    flip           supports fair
+    model          supports flip
+    counterfactual supports flip
+}
+
+
+justification performance {
+    conclusion performant is "Performance is ensured"
+    strategy   accuracy   is "Accuracy is greater than 85"
+    evidence   model      is "Model is available"
+    evidence   test       is "Test dataset is available"
+    accuracy supports performant
+    model    supports accuracy
+    test     supports accuracy
+}
+
+justification deployable is assemble(performance, fairness) {
+    conclusionLabel: "The model is ready for deployment"
+    strategyLabel: "Ensuring fairness and performance"
+}

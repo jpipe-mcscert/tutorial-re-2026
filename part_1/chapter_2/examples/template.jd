@@ -1,0 +1,45 @@
+
+template can_deploy {
+    conclusion claim      is "The model is ready for deployment"
+    strategy   altogether is "Ensuring fairness and performance"
+    @support   fair       is "The model is fair"
+    @support   performant is "The model is performant"
+
+    altogether supports claim
+    fair       supports altogether
+    performant supports altogether
+}
+
+justification deployable implements can_deploy {
+    // Hooks from template
+    sub-conclusion can_deploy:fair       is "Fairness is ensured"
+    sub-conclusion can_deploy:performant is "Performance is ensured"
+
+    // Fairness branch
+    strategy flip           is "Flip-rate is below 10%"
+    evidence counterfactual is "Counterfactual dataset is available"
+    flip           supports can_deploy:fair
+    model          supports flip
+    counterfactual supports flip
+
+    // Performance branch
+    strategy accuracy is "Accuracy is greater than 85"
+    accuracy supports can_deploy:performant
+    model    supports accuracy
+    evidence test is "Test dataset is available"
+    test supports accuracy
+
+    // Shared elements
+    evidence model is "Model is available"
+}
+
+template partial implements can_deploy {
+    sub-conclusion can_deploy:fair is "Fairness is ensured"
+    strategy       flip            is "Flip-rate is below 10%"
+    evidence       counterfactual  is "Counterfactual dataset is available"
+    evidence       model           is "Model is available"
+    flip           supports can_deploy:fair
+    model          supports flip
+    counterfactual supports flip
+}
+

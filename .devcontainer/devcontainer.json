@@ -1,0 +1,40 @@
+// Plan B for the tutorial: a GitHub Codespace with the whole toolchain preinstalled,
+// for participants whose local install of jpipe / Java / Graphviz / Python fails.
+//
+// Open one at https://codespaces.new/jpipe-mcscert/tutorial-re-2026
+// (a real Codespace is required -- pressing "." for github.dev does not work, the
+// jPipe extension has no web build).
+{
+    "name": "jPipe Tutorial (RE 2026)",
+    // Ubuntu 24.04. The jpipe PPA builds for noble, and noble carries
+    // openjdk-25-jre-headless, which the jpipe .deb depends on.
+    "image": "mcr.microsoft.com/devcontainers/base:noble",
+    // No python feature on purpose: it has no prebuilt binary for noble and
+    // compiles CPython from source (~15 min). setup.sh installs 3.13 from
+    // deadsnakes with apt instead.
+    //
+    // onCreateCommand, not postCreateCommand, so a prebuild bakes the whole install.
+    "onCreateCommand": "bash .devcontainer/setup.sh",
+    "remoteEnv": {
+        // Keep the virtualenv at .venv/ (gitignored) so the Python extension finds it.
+        "PIPENV_VENV_IN_PROJECT": "1",
+        // pipx installs pipenv here; participants need it on PATH in the terminal.
+        "PATH": "${containerEnv:PATH}:/home/vscode/.local/bin"
+    },
+    // No hostRequirements: the 2-core default is enough, halves what a session
+    // costs against the participant's free quota, and keeps the prebuild on the
+    // machine type participants get by default.
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "mcscert.jpipe-extension",
+                "ms-python.python"
+            ],
+            // .vscode/ is gitignored, so editor settings have to ship from here.
+            "settings": {
+                "python-envs.defaultEnvManager": "ms-python.python:pipenv",
+                "jpipe.executionMode": "cli"
+            }
+        }
+    }
+}
