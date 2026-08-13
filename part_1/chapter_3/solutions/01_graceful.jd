@@ -1,0 +1,23 @@
+// Solution to exercise 3.1 - a first justification, written from scratch.
+//
+// Same shape as chapter 2's deployable.jd: the conclusion rests on a threshold, the
+// threshold rests on a measurement, and the measurement rests on the two artifacts the
+// run needs. Only the metric and the bar changed.
+
+justification graceful {
+
+    conclusion claim     is "The classifier fails gracefully"
+    strategy   threshold is "Confront the severe-error rate with the 5% bar"
+
+    sub-conclusion measured  is "The severe-error rate has been measured"
+    strategy       execution is "Executing the model over the test dataset"
+    evidence       model     is "The trained model is available"
+    evidence       test_ds   is "The test dataset is available"
+
+    threshold supports claim
+    measured  supports threshold
+    execution supports measured
+    model     supports execution
+    test_ds   supports execution
+
+}

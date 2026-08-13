@@ -1,0 +1,56 @@
+// Solution to exercise 3.3 - the template from 3.2, implemented twice.
+//
+// The template is restated here so this file stands on its own, exactly as chapter 2's
+// template.jd keeps its template and its implementation together.
+//
+// Two things to notice. First, `graceful` says the same thing as 01_graceful.jd, but the
+// conclusion and the confronting strategy now come from the template rather than being
+// written again. Second, the two hooks are filled to different depths: `measured` gets a
+// whole sub-argument, `bar` gets a single piece of evidence. A hook is a slot, not a
+// fixed size - whoever implements it decides how far down the argument has to go.
+
+template quality_gate {
+
+    conclusion holds    is "The quality bar is met"
+    strategy   confront is "Confront the measurement with the bar"
+
+    @support measured is "The metric has been measured"
+    @support bar      is "The bar is agreed"
+
+    confront supports holds
+    measured supports confront
+    bar      supports confront
+
+}
+
+justification graceful implements quality_gate {
+
+    // The measurement: a sub-argument, because a number nobody produced proves nothing.
+    sub-conclusion quality_gate:measured is "The severe-error rate has been measured"
+    strategy       execution             is "Executing the model over the test dataset"
+    evidence       model                 is "The trained model is available"
+    evidence       test_ds               is "The test dataset is available"
+
+    execution supports quality_gate:measured
+    model     supports execution
+    test_ds   supports execution
+
+    // The bar: a leaf, because it is agreed elsewhere and simply cited here.
+    evidence quality_gate:bar is "The deployment checklist sets the severe-error bar at 5%"
+
+}
+
+justification accurate implements quality_gate {
+
+    sub-conclusion quality_gate:measured is "The accuracy has been measured"
+    strategy       execution             is "Executing the model over the test dataset"
+    evidence       model                 is "The trained model is available"
+    evidence       test_ds               is "The test dataset is available"
+
+    execution supports quality_gate:measured
+    model     supports execution
+    test_ds   supports execution
+
+    evidence quality_gate:bar is "The deployment checklist sets the accuracy bar at 80%"
+
+}

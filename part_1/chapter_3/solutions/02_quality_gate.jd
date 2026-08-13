@@ -1,0 +1,20 @@
+// Solution to exercise 3.2 - the shape of 3.1, with the parts that vary left open.
+//
+// Sketching the accuracy argument next to the severe-error one shows they are the same
+// six lines: a measurement, a bar, and a strategy confronting one with the other. What
+// differs is *which* metric and *which* bar - so those two become @support hooks, and
+// everything that does not vary stays in the template.
+
+template quality_gate {
+
+    conclusion holds    is "The quality bar is met"
+    strategy   confront is "Confront the measurement with the bar"
+
+    @support measured is "The metric has been measured"
+    @support bar      is "The bar is agreed"
+
+    confront supports holds
+    measured supports confront
+    bar      supports confront
+
+}

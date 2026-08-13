@@ -1,0 +1,49 @@
+// Exercise 3.3 - fill the shape, twice.
+//
+// The template from 3.2 is given below, so this file stands on its own. Your job is the
+// two justifications under it.
+//
+// Write `graceful` first: the same argument as 3.1, but with the conclusion and the
+// confronting strategy now coming from the template instead of being written again. Then
+// write `accurate` - accuracy against the 80% bar. The second one is where the template
+// earns itself: you will find there is very little left to write.
+//
+// Fill a hook by naming it, scoped to the template:  quality_gate:measured
+//
+// One hook is not like the other. The measurement needs a sub-argument under it - a
+// number nobody produced proves nothing. The bar is agreed elsewhere and merely cited,
+// so a single piece of evidence is enough. A hook is a slot, not a fixed size.
+//
+// Check your work with:   the notepad icon in the preview panel, or
+//                         jpipe diagnostic -i 03_implements.jd
+// Crib the syntax from:   ../../chapter_2/template.jd
+
+template quality_gate {
+
+    conclusion holds    is "The quality bar is met"
+    strategy   confront is "Confront the measurement with the bar"
+
+    @support measured is "The metric has been measured"
+    @support bar      is "The bar is agreed"
+
+    confront supports holds
+    measured supports confront
+    bar      supports confront
+
+}
+
+justification graceful implements quality_gate {
+
+    // The first hook is filled for you, to show what naming one looks like.
+    sub-conclusion quality_gate:measured is "The severe-error rate has been measured"
+
+    // TODO the sub-argument under it: the strategy and the evidence you wrote in 3.1,
+    //      and the supports links joining them to quality_gate:measured.
+
+    // TODO fill quality_gate:bar with a single piece of evidence: where does the 5%
+    //      come from?
+
+}
+
+// TODO a second justification, `accurate`, implementing the same template: the accuracy
+//      has been measured, and the bar is 80%.

@@ -1,0 +1,28 @@
+// Exercise 3.1 - your first justification.
+//
+// Argue that the classifier fails gracefully: when it is wrong, it is wrong by a little
+// rather than by a lot. The metric is the severe-error rate, and the bar is 5%.
+//
+// The conclusion is written for you. Everything under it is yours.
+//
+// Check your work with:   the notepad icon in the preview panel, or
+//                         jpipe diagnostic -i 01_graceful.jd
+// Crib the syntax from:   ../../chapter_2/deployable.jd
+
+justification graceful {
+
+    conclusion claim is "The classifier fails gracefully"
+
+    // TODO a strategy: what argument carries the conclusion? Confront the severe-error
+    //      rate with the 5% bar.
+
+    // TODO a sub-conclusion: the rate has been measured. A bar means nothing without a
+    //      measurement to hold against it.
+
+    // TODO a strategy under that sub-conclusion: how does the number come to exist?
+
+    // TODO the evidence that strategy needs: which two artifacts does the run consume?
+
+    // TODO the supports links tying all of the above together, ending at `claim`.
+
+}

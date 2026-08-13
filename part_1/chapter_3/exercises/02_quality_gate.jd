@@ -1,0 +1,29 @@
+// Exercise 3.2 - from one argument to a shape.
+//
+// Before writing anything here, sketch on paper the argument you would write for
+// *accuracy*: the accuracy has been measured, and it clears the 80% bar. Put it next to
+// the model you wrote in 3.1.
+//
+// They are the same argument. Only two things differ: which metric is measured, and
+// which bar it is held against.
+//
+// Capture that shape as a template. The parts that never vary are written out; the two
+// that do become @support hooks, left for whoever implements the template to fill in.
+//
+// Check your work with:   the notepad icon in the preview panel, or
+//                         jpipe diagnostic -i 02_quality_gate.jd
+// Crib the syntax from:   ../../chapter_2/template.jd
+
+template quality_gate {
+
+    conclusion holds is "The quality bar is met"
+
+    // TODO a strategy: confronting a measurement with a bar. True of both arguments, so
+    //      it belongs to the template, not to the implementations.
+
+    // TODO two @support hooks: the measurement, and the bar. These are the holes.
+
+    // TODO the supports links: both hooks support the strategy, the strategy supports
+    //      the conclusion.
+
+}
