@@ -1,0 +1,34 @@
+// Solution to 5.3: the two operators meet.
+//
+// Depth first, then breadth. `graceful_deep` is the refined brick from 5.2; it goes into
+// the assembly in place of the plain one, and `fair` and `performant` join it unchanged.
+//
+// Then count the evidence in the result and compare it with 5.1. `performant` still says,
+// in its own file, that the test dataset is trustworthy, as a bare leaf. But that label
+// now also belongs to the sub-conclusion the refinement created, so the two meet as one
+// node, and performant's leaf arrives already argued.
+//
+// Nobody edited performant.jd. It got the deeper argument because it worded its evidence
+// the same way graceful did.
+
+load "../bricks/fair.jd"
+load "../bricks/performant.jd"
+load "../bricks/graceful.jd"
+load "../bricks/trustworthy.jd"
+
+justification graceful_deep is refine(graceful, trustworthy) {
+    hook: "test"
+}
+
+// The refined brick comes first, and it has to. Where two bricks meet on a label, the
+// node is created by whichever arrives first, and a sub-conclusion can take an argument
+// underneath it where a piece of evidence cannot. Put `performant` first and its bare
+// leaf wins the position, leaving the refinement with nowhere to attach:
+//
+//     [invalid-support] 'graceful_deep:trustworthy:checks' cannot support 'unified_1'
+//
+// Deepest brick first is the rule of thumb.
+justification deployable is assemble(graceful_deep, fair, performant) {
+    conclusionLabel: "The classifier is ready for deployment"
+    strategyLabel:   "Every quality bar is cleared"
+}

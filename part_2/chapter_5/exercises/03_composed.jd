@@ -1,0 +1,35 @@
+// Exercise 5.3 - the two operators meet.
+//
+// Do 5.1 and 5.2 first. This one puts them together, and the result is the point of the
+// whole chapter.
+//
+// Check your work with:   jpipe diagnostic -i 03_composed.jd
+
+load "../bricks/fair.jd"
+load "../bricks/performant.jd"
+load "../bricks/graceful.jd"
+load "../bricks/trustworthy.jd"
+
+// TODO 1. refine `graceful` with `trustworthy`, as you did in 5.2, naming the result
+//         `graceful_deep`.
+
+// TODO 2. assemble `graceful_deep` together with `fair` and `performant` into
+//         `deployable`, as you did in 5.1, but with the deep brick in place of the
+//         shallow one.
+//
+//         Put `graceful_deep` first in the assemble list. If you put `performant` first
+//         you will get this, and the reason is worth understanding rather than working
+//         around:
+//
+//           [invalid-support] 'graceful_deep:trustworthy:checks' cannot support 'unified_1'
+//
+//         Where two bricks meet on a shared label, whichever arrives first decides what
+//         kind of node it is. A sub-conclusion can carry an argument beneath it; a piece
+//         of evidence cannot. Deepest brick first.
+
+// TODO 3. this one is not code. Compare the `deployable` you get here with the one from
+//         5.1, node by node, and answer:
+//
+//           - in 5.1, what kind of node was "The test dataset is trustworthy"?
+//           - here, what kind is it, and what is underneath it?
+//           - how many lines of performant.jd did you edit to get that?

@@ -1,0 +1,22 @@
+// The detail argument used by 5.2: what it actually takes for a test dataset to deserve
+// the word "trustworthy".
+//
+// Its conclusion is worded *exactly* as the leaf it will replace. That is deliberate and
+// it is the one thing the compiler will not check for you. A refinement drops this
+// argument into the hole where that leaf was, and its conclusion is the label that
+// survives, so if this said something else the argument would quietly start claiming
+// something else in that position.
+
+justification trustworthy {
+
+    conclusion claim  is "The test dataset is trustworthy"
+    strategy   checks is "The split is disjoint and every label is valid"
+
+    evidence disjoint is "No test row appears in the training split"
+    evidence labels   is "Every label is one of the eight Plutchik emotions"
+
+    checks   supports claim
+    disjoint supports checks
+    labels   supports checks
+
+}

@@ -1,0 +1,19 @@
+// One quality lens of the emotion detection case study, argued on its own.
+//
+// This is the brick 5.2 goes deeper into. Look at what it currently says about the test
+// dataset: "it is trustworthy", full stop, asserted as a leaf. That is a large claim to
+// take on faith, and refine is how it stops being taken on faith.
+
+justification graceful {
+
+    conclusion claim is "The classifier fails gracefully"
+    strategy   bar   is "The severe-error rate is below 5%"
+
+    evidence test  is "The test dataset is trustworthy"
+    evidence model is "The trained model is available"
+
+    bar   supports claim
+    test  supports bar
+    model supports bar
+
+}

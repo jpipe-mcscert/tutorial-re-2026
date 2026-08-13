@@ -1,0 +1,14 @@
+// Solution to 5.1: three independent bricks, one roof.
+//
+// Nothing in bricks/ was edited to make this work, and nothing in bricks/ mentions the
+// other two. That is what assemble buys: each lens is argued by whoever cares about it,
+// and the composition happens here, afterwards, by somebody else.
+
+load "../bricks/fair.jd"
+load "../bricks/performant.jd"
+load "../bricks/graceful.jd"
+
+justification deployable is assemble(fair, performant, graceful) {
+    conclusionLabel: "The classifier is ready for deployment"
+    strategyLabel:   "Every quality bar is cleared"
+}

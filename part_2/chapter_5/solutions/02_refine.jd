@@ -1,0 +1,16 @@
+// Solution to 5.2: one leaf stops being taken on faith.
+//
+// `graceful` claimed the test dataset was trustworthy and left it there. refine drops the
+// whole `trustworthy` argument into that hole. The hook names the element in the *base*
+// that gets replaced, and the result has to carry a new name: a model cannot refine
+// itself into its own name.
+//
+// Everything else about graceful is untouched. The conclusion, the severe-error strategy
+// and the model leaf are exactly as their author wrote them.
+
+load "../bricks/graceful.jd"
+load "../bricks/trustworthy.jd"
+
+justification graceful_deep is refine(graceful, trustworthy) {
+    hook: "test"
+}

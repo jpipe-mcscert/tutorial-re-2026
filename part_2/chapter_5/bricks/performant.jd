@@ -1,0 +1,19 @@
+// One quality lens of the emotion detection case study, argued on its own.
+//
+// Note the two evidence labels. They are worded exactly as they are in graceful.jd, and
+// that is not a coincidence: a label is the contract between bricks. Two bricks that word
+// the same artifact the same way meet as one node when they are assembled.
+
+justification performant {
+
+    conclusion claim is "The classifier is performant"
+    strategy   bar   is "The accuracy clears the 80% bar"
+
+    evidence test  is "The test dataset is trustworthy"
+    evidence model is "The trained model is available"
+
+    bar   supports claim
+    test  supports bar
+    model supports bar
+
+}

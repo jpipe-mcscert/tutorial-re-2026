@@ -1,0 +1,32 @@
+// Exercise 5.2 - one leaf stops being taken on faith.
+//
+// ../bricks/graceful.jd says "The test dataset is trustworthy" and stops there, as a leaf.
+// That is a large thing to assert without argument. ../bricks/trustworthy.jd is the
+// argument for it, written separately.
+//
+// Check your work with:   jpipe diagnostic -i 02_refine.jd
+
+load "../bricks/graceful.jd"
+load "../bricks/trustworthy.jd"
+
+// TODO write a justification named `graceful_deep` that refines `graceful` with
+// `trustworthy`:
+//
+//   justification <name> is refine(<base>, <detail>) {
+//       hook: "<element id>"
+//   }
+//
+// The hook is an element id *from the base*, naming the node that gets replaced. Open
+// graceful.jd and find the id of the leaf about the test dataset.
+//
+// The result needs a new name. A model cannot refine itself into its own name, and the
+// compiler will say so plainly if you try.
+//
+// Two things worth doing on purpose once it works:
+//
+//   1. Put a wrong id in the hook and read the error. Then try an id that exists in
+//      `trustworthy` rather than in `graceful`, and notice you get the same error. The
+//      hook only ever looks in the base.
+//
+//   2. Compare the element counts of `graceful` and `graceful_deep` in the model summary.
+//      One node changed kind. Which one, and to what?

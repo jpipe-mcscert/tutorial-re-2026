@@ -1,0 +1,19 @@
+// One quality lens of the emotion detection case study, argued on its own.
+//
+// This brick knows nothing about the other two. That is the point: somebody who cares
+// about fairness wrote it, and never had to agree with anybody about anything except the
+// wording of the artifacts it cites.
+
+justification fair {
+
+    conclusion claim is "The classifier is fair"
+    strategy   flip  is "The flip-rate is below 10%"
+
+    evidence counterfactual is "The counterfactual dataset is trustworthy"
+    evidence model         is "The trained model is available"
+
+    flip           supports claim
+    counterfactual supports flip
+    model          supports flip
+
+}

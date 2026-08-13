@@ -1,0 +1,26 @@
+// Exercise 5.1 - three bricks, one roof.
+//
+// The three quality lenses of the case study are argued in ../bricks/, one file each.
+// None of them mentions the others. Your job is to gather them under a single claim
+// without editing any of them.
+//
+// Check your work with:   jpipe diagnostic -i 01_assemble.jd
+// Crib the syntax from:   ../../../part_1/chapter_2/assemble.jd
+
+load "../bricks/fair.jd"
+load "../bricks/performant.jd"
+load "../bricks/graceful.jd"
+
+// TODO write a justification named `deployable` that assembles the three bricks above.
+//
+//   justification <name> is assemble(<brick>, <brick>, <brick>) {
+//       conclusionLabel: "..."
+//       strategyLabel:   "..."
+//   }
+//
+// assemble does not invent the new claim for you: you supply both labels. The conclusion
+// is what the three lenses together let you say, and the strategy is why those three are
+// the right three.
+//
+// Run the diagnostic now, before writing anything. The model summary lists the three
+// bricks and nothing else. When `deployable` appears in that list, you have built it.
