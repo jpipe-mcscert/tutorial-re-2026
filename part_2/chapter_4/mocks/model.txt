@@ -1,0 +1,10 @@
+jpipe-tutorial mock artifact
+=============================
+
+This file stands in for a trained classifier. A real one would be a pickled
+scikit-learn pipeline of some tens of megabytes; for this chapter, what matters is
+only that something is here to be found, and that the argument notices when it is not.
+
+model:    model C, the gracefully-failing version
+trained:  2026-08-13
+features: text only, no protected attributes

@@ -1,0 +1,8 @@
+{
+  "model": "model C",
+  "accuracy": 0.818,
+  "macro_f1": 0.816,
+  "flip_rate": 0.0,
+  "mean_distance": 0.289,
+  "severe_error_rate": 0.030
+}

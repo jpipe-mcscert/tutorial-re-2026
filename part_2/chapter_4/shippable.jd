@@ -1,0 +1,19 @@
+// The model chapter 4 makes executable. It is given to you complete: the work of this
+// chapter is not writing the argument, it is attaching it to the world.
+//
+// Four elements, and every one of them has a job in the execution layer. The two evidence
+// leaves are artifacts that either exist or do not. The strategy is the only place a
+// judgement is made, and it can only judge what the leaves handed it.
+
+justification shippable {
+
+    conclusion claim   is "The classifier is fit to ship"
+    strategy   bar     is "The measured accuracy clears the 80% bar"
+    evidence   model   is "The trained model is on disk"
+    evidence   metrics is "The measurement report is on disk"
+
+    bar     supports claim
+    model   supports bar
+    metrics supports bar
+
+}
