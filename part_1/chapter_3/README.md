@@ -42,11 +42,11 @@ Fill in the stub, then ask the compiler what is still missing. There are two way
 report the same thing.
 
 **In the editor.** Open the stub and open its preview, from the preview icon in the editor title bar
-or by right-clicking and choosing *Open Diagram Preview*. The **notepad icon at the top right of the
-preview panel** switches it between the diagram and the diagnostic view, where the *Problems* tab
-lists what the compiler has to say. It is the last icon in the toolbar and stays there whatever the
-panel is showing, so it is always in the same place. The preview follows the file as you type, which
-makes this the shorter loop of the two.
+or by right-clicking and choosing **jPipe**, then *Open Diagram Preview*. The **notepad icon at the
+top right of the preview panel** switches it between the diagram and the diagnostic view, where the
+*Problems* tab lists what the compiler has to say. It is the last icon in the toolbar and stays there
+whatever the panel is showing, so it is always in the same place. The report is redrawn every time
+you save, which makes this the shorter loop of the two.
 
 **On the command line.** From this directory:
 
