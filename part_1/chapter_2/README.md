@@ -1,57 +1,138 @@
 # Chapter 2: Worked examples
 
-The models shown on the slides, in runnable form. Nothing here is an exercise: open them, preview
-them, and change them to see what the editor says. Chapter 3 is where you write your own.
+By the end of this chapter, you can:
 
-| File | What it shows |
-|---|---|
-| [deployable.jd](deployable.jd) | one justification written whole, with the two commands that compile it in its header |
-| [assemble.jd](assemble.jd) | two independent justifications, gathered by `assemble` |
-| [template.jd](template.jd) | a template, a justification that implements it, and a second, partial one |
+- open the diagram preview of a `.jd` file, and read the source and the diagram against each other;
+- edit a model with completion, renaming, formatting and quick fixes, rather than by hand;
+- read the compiler's report inside the editor, and go from an element in it to its declaration.
 
-[deployable.json](deployable.json) and [deployable.py](deployable.py) are what those two commands
-produce, checked in so you can see the compiler's output before running anything yourself. Chapter 4
-is where the Python side stops being a listing and starts being work.
+## How to work
 
-## Let the editor do the mechanical work
+Every task below happens in [deployable.jd](deployable.jd), so open that file and leave it open. It
+holds two justifications: `deployable`, and `deployable_v1`, the same argument in a rougher state.
+Both compile, and `jpipe diagnostic -i deployable.jd` reports `(none)` before you start.
 
-The jPipe IDE knows the language, so the bookkeeping that makes a `.jd` file tedious is not yours to
-do by hand. Everything below is in the extension you installed in [Setup](../../README.md#setup), and
-none of it needs the compiler to be running. Try each one in these files: they are worked examples, so
-nothing is lost if you mangle one, and `git checkout` brings it back.
+The tasks build on each other, and each one changes the file. When you are done, or whenever you want
+to start over:
 
-**Rename a symbol, with `F2`.** Element and model names are references, not text, and the editor
-rewrites all of them. Put the cursor on `can_deploy` in [template.jd](template.jd) and rename it: the
-template's declaration, the two `implements` clauses and every qualified hook that names it, nine
-places in one keystroke. Renaming an element does the same to the `supports` lines that mention it.
-Never rename with find-and-replace: `model` is a different element in each model that declares one,
-and the editor knows that where a search does not.
+```sh
+git checkout part_1/chapter_2/deployable.jd
+```
 
-**Fix what the editor flags, with the lightbulb (`⌘.` / `Ctrl+.`).** Where a problem can be repaired,
-the fix is offered rather than described. Delete the `sub-conclusion can_deploy:fair` line from
-`deployable` in [template.jd](template.jd) and the editor will report the `@support` that is now
-unanswered and offer to write the declaration back. Mistype `assemble` in [assemble.jd](assemble.jd)
-and it offers the spelling. The same applies to a conclusion nothing supports yet, a mistyped config
-key, and a `load` path that does not resolve.
+You do not need to run the compiler yourself. The extension you installed in
+[Setup](../../README.md#setup) calls it for you.
 
-**Reach for the refactorings, with `⌃⇧R` / `Ctrl+Shift+R`,** or from **Refactor…** in the right-click
-menu, or by name in the command palette:
+## 2.1: Open the preview
 
-- **Sort Elements** puts a model's declarations in the order its argument reads, conclusion first,
-  then down through what supports it, one branch at a time. The examples here are already in that
-  order, which is what it produces: you never have to maintain that shape by hand.
-- **Extract Template** turns a justification into a template plus a justification that implements it.
-  That is exactly the shape [template.jd](template.jd) shows, so you can produce it from a model you
-  wrote whole rather than planning for it up front.
-- **Convert Justification to Template** switches what a model is, and says up front how many
-  `@support` elements the conversion would drop.
+Open the preview from the icon in the editor title bar, or by right-clicking and choosing **jPipe**,
+then *Open Diagram Preview*. The panel opens beside the file.
 
-**Tidy the file.** **Format Document**, in the right-click menu, is where the aligned `is` columns in
-these files come from, so do not space them by hand. **jPipe: Organize Loads**, from **Source Action…**
-in the same menu or by name in the palette, sorts and de-duplicates the `load` statements at the top
-of a file, which matters from chapter 5 on, where models are split across files. Both run only when
-you ask: reordering your own source is a decision, not something that should happen while you save.
+If it is blank and asks you to move the cursor into a diagram block, that is the rule it works by: the
+preview shows the model your cursor is in. Click inside `deployable`, then inside `deployable_v1`, and
+the diagram switches. One `.jd` file can hold several models, and the preview picks between them from
+the cursor position rather than from a menu.
 
-The point is not that these save keystrokes. A model whose names, order and layout are maintained by
-the editor is one you can keep changing as the system it argues about changes, which is the whole
-claim of this tutorial.
+The preview draws the file as saved, not as typed. Change a label and a banner appears to say you are
+looking at the last saved version. Save (`⌘S` / `Ctrl+S`) and the diagram is redrawn. While that
+banner is up, moving the cursor into the other justification does not switch the diagram either, so
+save before you navigate.
+
+**Done when:** you have switched the preview between the two justifications using only the cursor, and
+you have seen the unsaved-changes banner appear and go away.
+
+## 2.2: Follow the argument with the cursor
+
+In the preview toolbar, the eye icon (*Highlight on cursor*) is a toggle. Turn it on.
+
+Put the cursor on `claim` in `deployable` and move down the declarations one line at a time. The
+element named on the current line stays lit, the rest of the diagram dims, and if that node is off
+screen the preview scrolls it into view. The `supports` lines behave the same way, so you can also
+move down the relations and see which part of the diagram each one draws.
+
+Then put the cursor on `model` in `deployable`, and on `model` in `deployable_v1`. The preview switches
+models: these are two different elements that share a name.
+
+**Done when:** you can move from the conclusion down to the evidence and see each element highlighted
+in turn.
+
+## 2.3: Let the editor finish the line
+
+`deployable` has an `agreed` evidence that `deployable_v1` does not. Add one to `deployable_v1`, typing
+as little of it as you can.
+
+In the declarations, type `evi`, accept `evidence`, name it `agreed`, and write a label. Then, in the
+relations below, type `agreed sup`, accept `supports`, and press `⌃Space` / `Ctrl+Space`.
+
+The list you get holds the elements this model declares, each with its label beside it, and only the
+ones that may legally appear in that position: `agreed` is evidence, evidence supports strategies, so
+the list is `threshold` and `execution`. Take `threshold`, then save and check the new node in the
+preview.
+
+**Done when:** `deployable_v1` has an `agreed` evidence supporting `threshold`, and you have seen that
+the completion list omits the elements that could not be there.
+
+## 2.4: Rename, and then re-align
+
+`deployable_v1` calls its dataset `training_ds`. Put the cursor on it, press `F2`, or right-click and
+choose **Rename Symbol**, and type `test_ds`. The declaration and the `supports` line both change,
+because an id is a reference rather than a piece of text.
+
+Note what does not change. `deployable`, higher up the file, keeps its own `test_ds`, and each
+justification's `model` remains its own element. Ids are scoped to the model that declares them, so a
+find-and-replace across the file would rename elements that only happen to share a name.
+
+The rename leaves the `is` column ragged. Run **Format Document**, from the right-click menu, from
+`⇧⌥F` / `Shift+Alt+F`, or as *jPipe: Auto-indent and Align* in the command palette. The columns line
+up again. That is where the layout of the files in this repository comes from, so you do not need to
+space them by hand.
+Formatting rewrites lines and never moves them past each other: comments stay beside what they
+describe, and blank lines stay where you put them, which is how a body is divided into sub-arguments.
+
+**Done when:** `deployable_v1` names `test_ds` in both places and its columns are aligned again.
+
+## 2.5: Delete something, and let the editor put it back
+
+In `deployable_v1`, delete the two `evidence` declarations under `execution`, and the two `supports`
+lines that mention them.
+
+The strategy `execution` is now unsupported, and the editor reports it: *Strategy 'execution' is not
+supported by any evidence, sub-conclusion, or @support*. Put the cursor on the underlined id and open
+the quick fixes, from the lightbulb that appears in the gutter or with `⌘.` / `Ctrl+.`. Two are
+offered:
+
+- *Add some evidence e supporting 'execution'*
+- *Add a sub-conclusion sc supporting 'execution'*
+
+Both are valid at that position, which is why the editor offers a choice instead of applying one. Take
+the first. It writes the declaration and the `supports` line that ties it in, and leaves the label
+empty, which it then reports as a warning in turn. Fill the label in: the quick fix restores the
+structure of the argument, and the sentence is yours to write.
+
+**Done when:** the error is gone and the new element has a label.
+
+## 2.6: Read the file as the compiler sees it
+
+The last icon in the preview toolbar, the notepad, switches the panel to the **diagnostic view**. It
+is the last icon whatever the panel is showing, so it stays in the same place. It shows the output of
+`jpipe diagnostic -i deployable.jd`, run for you, in four tabs, each carrying a count:
+
+- **Problems**, what would stop the file compiling, and empty by now;
+- **Models**, the two justifications with a census of what each is made of;
+- **Symbols**, every element of every model, and where it is declared;
+- **Actions**, the commands the compiler executed to build the two models.
+
+Open **Symbols** and click a row: the editor jumps to the line that declares that element. Every row
+that carries a location works this way, in Problems as much as in Symbols. Leave the tab open and move
+around the source, and the row for the element you are on is marked as the current one.
+
+The filter box narrows whichever tab you are in, and *Copy* puts the report on the clipboard. The same
+notepad icon returns to the diagram.
+
+**Done when:** you have gone from a symbol in the report to its declaration in the source in one
+click, and Problems is empty.
+
+## Put it back
+
+```sh
+git checkout part_1/chapter_2/deployable.jd
+```

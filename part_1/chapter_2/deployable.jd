@@ -20,3 +20,19 @@ justification deployable {
     test_ds   supports execution
 
 }
+
+justification deployable_v1 {
+
+    conclusion     claim       is "The model is ready for deployment"
+    strategy       threshold   is "Confront the report's measurements to the 80% bar"
+    sub-conclusion reporting   is "A report is available"
+    strategy       execution   is "Executing the model on the dataset"
+    evidence       model       is "The model is available"
+    evidence       training_ds is "The training dataset is available"
+    
+    threshold   supports claim
+    reporting   supports threshold
+    execution   supports reporting
+    model       supports execution
+    training_ds supports execution
+}
