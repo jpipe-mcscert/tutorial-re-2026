@@ -11,7 +11,7 @@ on:
 
 env:
   # The compiler half of the pin. The runner half lives in Pipfile.lock.
-  JPIPE_VERSION: "2.4.0"
+  JPIPE_VERSION: "2.5.0"
 
 jobs:
   shippable:
@@ -37,7 +37,7 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.13" # matches [requires] in the Pipfile
+          python-version: "3.13" # the floor [requires] sets in the Pipfile
 
       - name: Install the jPipe runner
         run: |

@@ -17,9 +17,9 @@ Reference pages: [assemble](https://www.jpipe.org/tutorials/assemble/) and
 Nothing is executed here. Chapter 4 covered running a model; this chapter is about structure, so your
 tool throughout is `jpipe diagnostic` and the model summary it prints.
 
-**Check your compiler first**, with `jpipe --version`. This chapter needs **2.4.1 or newer**. In 2.4.0
-the order you listed the sources of an `assemble` in could change the result, and 5.3 relies on it not
-doing so.
+**Check your compiler first**, with `jpipe --version`. This chapter needs **2.5.0 or newer**. Before
+that, the order you listed the sources of an `assemble` in could change the result, and 5.3 relies on
+it not doing so.
 
 ## The bricks
 

@@ -4,8 +4,8 @@
 # and the pinned Python environment. Run once, by onCreateCommand.
 set -euo pipefail
 
-PYTHON_VERSION="3.13"   # must match [requires] python_version in the Pipfile
-JPIPE_VERSION="2.3.1"   # used only by the fallback install path below
+PYTHON_VERSION="3.13"   # the floor [requires] python_version sets in the Pipfile
+JPIPE_VERSION="2.5.0"   # used only by the fallback install path below
 
 log() { echo "[setup] $*"; }
 

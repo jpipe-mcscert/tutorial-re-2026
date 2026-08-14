@@ -182,7 +182,7 @@ on:
   workflow_dispatch:
 
 env:
-  JPIPE_VERSION: "2.4.0"
+  JPIPE_VERSION: "2.5.0"
 
 jobs:
   shippable:
