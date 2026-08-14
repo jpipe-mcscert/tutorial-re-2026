@@ -1,0 +1,63 @@
+# Chapter 2's example, run the way a CI server runs it: the argument in
+# part_1/chapter_2/deployable.json, confronted with a world described by the inputs below.
+#
+# The model is not compiled here. deployable.json is checked into the repository, so this
+# job needs the runner and nothing else, and it starts without installing Java, Graphviz
+# or the compiler. The chapter 4 job is the one that compiles, because the .json it runs
+# is not checked in.
+#
+# Each input lands in an environment variable that deployable.py reads, so the same
+# argument over the same artifacts can be made to hold or to stop holding without editing
+# a file. The defaults are model C from the case study, held to the 80% bar it agreed to,
+# and they pass.
+name: Justification (chapter 2)
+
+on:
+  workflow_dispatch:
+    inputs:
+      accuracy:
+        description: "What the run measured"
+        default: "0.818"
+      threshold:
+        description: "The agreed bar"
+        default: "0.80"
+      model:
+        description: "The trained model is available"
+        type: choice
+        options: ["yes", "no"]
+        default: "yes"
+      test_dataset:
+        description: "The test dataset is available"
+        type: choice
+        options: ["yes", "no"]
+        default: "yes"
+
+jobs:
+  deployable:
+    runs-on: ubuntu-24.04
+
+    # The whole world this argument asks about, in four variables. Nothing else reaches
+    # deployable.py, and deployable.py reads nothing else.
+    env:
+      DEPLOYABLE_ACCURACY: ${{ inputs.accuracy }}
+      DEPLOYABLE_THRESHOLD: ${{ inputs.threshold }}
+      DEPLOYABLE_MODEL: ${{ inputs.model }}
+      DEPLOYABLE_TEST_DATASET: ${{ inputs.test_dataset }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13" # the floor [requires] sets in the Pipfile
+
+      - name: Install the jPipe runner
+        run: |
+          pip install pipenv
+          pipenv sync --dev # jpipe-runner, exactly as pinned in Pipfile.lock
+
+      # No `if` and no log parsing: the runner exits non-zero as soon as a check fails, so
+      # an accuracy under the bar, or a missing artifact, turns this job red on its own.
+      - name: Check the argument against the environment
+        working-directory: part_1/chapter_2
+        run: pipenv run jpipe-runner -l deployable.py deployable.json

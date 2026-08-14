@@ -1,39 +1,45 @@
 {
   "elements": [
     {
-      "escaped": "the_model_is_ready_for_deployment",
+      "escaped": "the_model_is_performant_enough_for_production",
       "id": "deployable:claim",
-      "label": "The model is ready for deployment",
+      "label": "The model is performant enough for production",
       "type": "conclusion"
     },
     {
-      "escaped": "confront_the_report_s_measurements_to_the_80_bar",
+      "escaped": "confirm_the_report_s_measurements_meet_the_agreed_threshold",
       "id": "deployable:threshold",
-      "label": "Confront the report's measurements to the 80% bar",
+      "label": "Confirm the report's measurements meet the agreed threshold",
       "type": "strategy"
     },
     {
-      "escaped": "a_report_is_available",
+      "escaped": "a_performance_threshold_is_agreed_upon_80",
+      "id": "deployable:agreed",
+      "label": "A performance threshold is agreed upon (80%)",
+      "type": "evidence"
+    },
+    {
+      "escaped": "a_performance_report_is_available",
       "id": "deployable:reporting",
-      "label": "a report is available",
+      "label": "A performance report is available",
       "type": "sub-conclusion"
     },
     {
-      "escaped": "executing_the_model_on_the_dataset",
+      "escaped": "run_the_model_on_the_dataset",
       "id": "deployable:execution",
-      "label": "executing the model on the dataset",
+      "label": "Run the model on the dataset",
       "type": "strategy"
     },
     {
       "escaped": "the_model_is_available",
       "id": "deployable:model",
-      "label": "the model is available",
+      "label": "The model is available",
       "type": "evidence"
     },
     {
-      "escaped": "the_training_dataset_is_available",
-      "id": "deployable:training_ds",
-      "label": "the training dataset is available",
+      "escaped": "the_test_dataset_is_available",
+      "id": "deployable:test_ds",
+      "label": "The test dataset is available",
       "type": "evidence"
     }
   ],
@@ -53,11 +59,15 @@
       "target": "deployable:threshold"
     },
     {
+      "source": "deployable:agreed",
+      "target": "deployable:threshold"
+    },
+    {
       "source": "deployable:model",
       "target": "deployable:execution"
     },
     {
-      "source": "deployable:training_ds",
+      "source": "deployable:test_ds",
       "target": "deployable:execution"
     }
   ]
