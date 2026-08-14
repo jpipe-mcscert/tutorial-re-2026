@@ -17,6 +17,10 @@ Reference pages: [assemble](https://www.jpipe.org/tutorials/assemble/) and
 Nothing is executed here. Chapter 4 covered running a model; this chapter is about structure, so your
 tool throughout is `jpipe diagnostic` and the model summary it prints.
 
+**Check your compiler first**, with `jpipe --version`. This chapter needs **2.4.1 or newer**. In 2.4.0
+the order you listed the sources of an `assemble` in could change the result, and 5.3 relies on it not
+doing so.
+
 ## The bricks
 
 The three quality lenses of the emotion detection case study, one file each in [bricks/](bricks/), and
@@ -107,14 +111,24 @@ graceful_deep   conclusion(1), sub-conclusion(1), strategy(2), evidence(3)
 Refine first, then assemble: put the deepened brick into the assembly in place of the shallow one, and
 let `fair` and `performant` join it untouched.
 
-One rule of thumb, which the exercise makes you meet head on: **deepest brick first**. Where two bricks
-meet on a shared label, whichever arrives first decides what kind of node it is, and a sub-conclusion
-can carry an argument beneath it where a piece of evidence cannot. Assemble them the other way round
-and you get:
+**The order you list the bricks in does not matter.** `assemble(graceful_deep, fair, performant)` and
+`assemble(performant, fair, graceful_deep)` give you the same model, down to the ids, the kinds and
+the relations. That is worth trying rather than taking on trust, because it is the one place where two
+bricks disagree about what they are saying: `graceful_deep` argues that the test dataset is
+trustworthy, and `performant` merely asserts it. Where a shared label brings those two together, the
+merge keeps the kind that can carry an argument, so the node is a sub-conclusion either way and the
+assertion arrives already argued.
+
+What the compiler will not do is merge two nodes whose kinds genuinely cannot be reconciled. Give the
+assembly a `conclusionLabel` that some brick already uses for a piece of evidence, and it stops with
+the reason spelled out:
 
 ```
-[invalid-support] 'graceful_deep:trustworthy:checks' cannot support 'unified_1'
+[incompatible-unification] cannot unify 'assembleConclusion' (conclusion, "The trained model is available") with 'fair:model' (evidence, "The trained model is available") in model 'deployable': these element kinds are incompatible. Rename one of the labels, or keep the elements apart with unifyExclude.
 ```
+
+Worth doing once on purpose. A label is a contract, and that is what it looks like when you sign the
+wrong one.
 
 **Done when:** the diagnostic is clean, and you can see what happened to one particular node. In 5.1,
 the assembled model contained this:

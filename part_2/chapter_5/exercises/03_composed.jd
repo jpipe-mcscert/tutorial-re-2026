@@ -17,15 +17,10 @@ load "../bricks/trustworthy.jd"
 //         `deployable`, as you did in 5.1, but with the deep brick in place of the
 //         shallow one.
 //
-//         Put `graceful_deep` first in the assemble list. If you put `performant` first
-//         you will get this, and the reason is worth understanding rather than working
-//         around:
-//
-//           [invalid-support] 'graceful_deep:trustworthy:checks' cannot support 'unified_1'
-//
-//         Where two bricks meet on a shared label, whichever arrives first decides what
-//         kind of node it is. A sub-conclusion can carry an argument beneath it; a piece
-//         of evidence cannot. Deepest brick first.
+//         The order you list them in does not matter. Once it compiles, swap two of
+//         them around and run the diagnostic again: same model. Where `graceful_deep`
+//         argues a claim that `performant` merely asserts, the merged node keeps the
+//         kind that can carry an argument beneath it, whichever one arrives first.
 
 // TODO 3. this one is not code. Compare the `deployable` you get here with the one from
 //         5.1, node by node, and answer:

@@ -20,14 +20,10 @@ justification graceful_deep is refine(graceful, trustworthy) {
     hook: "test"
 }
 
-// The refined brick comes first, and it has to. Where two bricks meet on a label, the
-// node is created by whichever arrives first, and a sub-conclusion can take an argument
-// underneath it where a piece of evidence cannot. Put `performant` first and its bare
-// leaf wins the position, leaving the refinement with nowhere to attach:
-//
-//     [invalid-support] 'graceful_deep:trustworthy:checks' cannot support 'unified_1'
-//
-// Deepest brick first is the rule of thumb.
+// The bricks can be listed in any order: put `performant` first and you get the same
+// model. Where two of them meet on a label and disagree about what kind of node it is,
+// the merge keeps the kind that can carry an argument, so the refinement's sub-conclusion
+// and performant's bare leaf become one sub-conclusion either way round.
 justification deployable is assemble(graceful_deep, fair, performant) {
     conclusionLabel: "The classifier is ready for deployment"
     strategyLabel:   "Every quality bar is cleared"
