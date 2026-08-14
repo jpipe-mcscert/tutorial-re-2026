@@ -7,7 +7,26 @@
 name: Justification (chapter 4)
 
 on:
+  # Launched by hand, with the world it should run against. The defaults are mocks/ as it
+  # stands in the repository, so an untouched run is the green one from 4.3.
   workflow_dispatch:
+    inputs:
+      accuracy:
+        description: "The accuracy the report is read as holding"
+        default: "0.818"
+      bar:
+        description: "The bar the strategy applies"
+        default: "0.80"
+      model:
+        description: "The trained model is on disk"
+        type: choice
+        options: ["yes", "no"]
+        default: "yes"
+      metrics:
+        description: "The measurement report is on disk"
+        type: choice
+        options: ["yes", "no"]
+        default: "yes"
 
 env:
   # The compiler half of the pin. The runner half lives in Pipfile.lock.
@@ -17,6 +36,15 @@ jobs:
   shippable:
     # Named, not ubuntu-latest: the pinned compiler needs Java 25, which noble carries.
     runs-on: ubuntu-24.04
+
+    # The two breakages of 4.4, reachable from the Actions tab: lower the accuracy past
+    # the bar, or take an artifact away. solutions/bindings.py reads these four and
+    # nothing else, and falls back to mocks/ for every one that is left unset.
+    env:
+      SHIPPABLE_ACCURACY: ${{ inputs.accuracy }}
+      SHIPPABLE_BAR: ${{ inputs.bar }}
+      SHIPPABLE_MODEL: ${{ inputs.model }}
+      SHIPPABLE_METRICS: ${{ inputs.metrics }}
 
     steps:
       - uses: actions/checkout@v4

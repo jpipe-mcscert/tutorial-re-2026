@@ -180,6 +180,11 @@ name: Justification (chapter 4)
 
 on:
   workflow_dispatch:
+    inputs:
+      accuracy: { default: "0.818" }   # what the report is read as holding
+      bar:      { default: "0.80" }    # what the strategy applies
+      model:    { default: "yes" }     # is the trained model on disk
+      metrics:  { default: "yes" }     # is the measurement report on disk
 
 env:
   JPIPE_VERSION: "2.5.0"
@@ -187,6 +192,11 @@ env:
 jobs:
   shippable:
     runs-on: ubuntu-24.04
+    env:
+      SHIPPABLE_ACCURACY: ${{ inputs.accuracy }}
+      SHIPPABLE_BAR: ${{ inputs.bar }}
+      SHIPPABLE_MODEL: ${{ inputs.model }}
+      SHIPPABLE_METRICS: ${{ inputs.metrics }}
     steps:
       - uses: actions/checkout@v4
 
@@ -210,12 +220,12 @@ jobs:
         run: pipenv run jpipe-runner -l solutions/bindings.py shippable.json
 ```
 
-Read what is *not* in it. No accuracy, no threshold, nothing about classifiers, and nothing that reads
-the report and decides what it meant. The last two steps are the two commands from 4.1, unchanged. The
-judgement stayed where you put it in 4.3, in the binding next to the element it belongs to, and the
-job goes red on its own because the runner exits non-zero as soon as a check fails.
+Read what is *not* in it. Nothing about classifiers, and nothing that reads the report and decides
+what it meant. The last two steps are the two commands from 4.1, unchanged. The judgement stayed
+where you put it in 4.3, in the binding next to the element it belongs to, and the job goes red on
+its own because the runner exits non-zero as soon as a check fails.
 
-Three details worth naming:
+Four details worth naming:
 
 - **It runs on demand, not on push.** This repository is teaching material, and
   [exercises/bindings.py](exercises/bindings.py) is unfinished on purpose, so a job firing on every
@@ -224,10 +234,15 @@ Three details worth naming:
   filling in. Your own runs stay local until the exercise is done.
 - **Both tools are pinned**, the compiler by `JPIPE_VERSION` and the runner by `Pipfile.lock`. An
   argument whose verdict changes overnight because a tool updated itself is not much of an argument.
+- **The four inputs are there to let you break it.** They set environment variables that
+  [solutions/bindings.py](solutions/bindings.py) reads in place of `mocks/`, so 4.4's two failures can
+  be produced from a browser: lower `accuracy` past the bar, or set `model` to `no`. Left alone, they
+  are what `mocks/` already says and the run is the green one. A project of your own needs none of
+  this: the accuracy comes from the run that measured it, and the bar lives in the code.
 
 Run it from the **Actions** tab, **Justification (chapter 4)**, **Run workflow**, on your own fork.
-Then open the last step in the log: it is the same four-line report you got in 4.3, printed by a
-machine that has never seen your laptop.
+Leave the inputs alone the first time. Then open the last step in the log: it is the same four-line
+report you got in 4.3, printed by a machine that has never seen your laptop.
 
 **Done when:** you have read the report in a CI log rather than in your terminal.
 

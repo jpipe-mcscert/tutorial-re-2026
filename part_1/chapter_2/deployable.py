@@ -7,18 +7,9 @@
 # @jpipe_link("deployable:<id>"). The conclusion has no function: the runner passes it as
 # soon as everything under it passes.
 #
-# The world this argument asks about comes from the environment, so a CI job can change
-# the outcome without touching the model or this file:
-#
-#   DEPLOYABLE_MODEL         the trained model is available   (default yes)
-#   DEPLOYABLE_TEST_DATASET  the test dataset is available    (default yes)
-#   DEPLOYABLE_ACCURACY      what the run measured            (default 0.818)
-#   DEPLOYABLE_THRESHOLD     the agreed bar                   (default 0.80)
-#
-# The defaults are model C from the case study, held to the 80% bar it agreed to, and
-# they pass. Nothing here needs a classifier: only the standard library is imported.
+# The numbers are model C from the case study, held to the 80% bar it agreed to. Nothing
+# here needs a classifier, and only the standard library is imported.
 
-import os
 from typing import Any, Callable
 
 from jpipe_runner.framework.decorators.jpipe_decorator import jpipe
@@ -26,18 +17,9 @@ from jpipe_runner.framework.decorators.link_decorator import jpipe_link
 
 JpipeProduce = Callable[[str, Any], None]
 
-TRUE_VALUES = {"1", "true", "yes", "on"}
-
-
-def available(variable: str) -> bool:
-    """Whether the environment says an artifact is there. Absent means yes."""
-    return os.environ.get(variable, "yes").strip().lower() in TRUE_VALUES
-
-
-def number(variable: str, default: float) -> float:
-    """A measurement read from the environment, or its default when unset."""
-    raw = os.environ.get(variable)
-    return default if raw is None else float(raw)
+#: What the run measured, and the bar it was agreed against.
+MEASURED_ACCURACY = 0.818
+AGREED_BAR = 0.80
 
 
 ###          ###
@@ -48,7 +30,7 @@ def number(variable: str, default: float) -> float:
 @jpipe(produce=["bar"])
 def a_performance_threshold_is_agreed_upon_80(produce: JpipeProduce) -> bool:
     """[evidence] A performance threshold is agreed upon (80%)"""
-    produce("bar", number("DEPLOYABLE_THRESHOLD", 0.80))
+    produce("bar", AGREED_BAR)
     return True
 
 
@@ -56,8 +38,6 @@ def a_performance_threshold_is_agreed_upon_80(produce: JpipeProduce) -> bool:
 @jpipe(produce=["model"])
 def the_model_is_available(produce: JpipeProduce) -> bool:
     """[evidence] The model is available"""
-    if not available("DEPLOYABLE_MODEL"):
-        return False
     produce("model", "emotion-classifier-c")
     return True
 
@@ -66,8 +46,6 @@ def the_model_is_available(produce: JpipeProduce) -> bool:
 @jpipe(produce=["test_ds"])
 def the_test_dataset_is_available(produce: JpipeProduce) -> bool:
     """[evidence] The test dataset is available"""
-    if not available("DEPLOYABLE_TEST_DATASET"):
-        return False
     produce("test_ds", "test-split")
     return True
 
@@ -78,10 +56,10 @@ def run_the_model_on_the_dataset(model, test_ds,
                                  produce: JpipeProduce) -> bool:
     """[strategy] Run the model on the dataset"""
     # A run needs both of the things below it, and produces the measurement the argument
-    # is about. It reads no threshold: whether the number is good enough is not its call.
+    # is about. It reads no bar: whether the number is good enough is not its call.
     if not (model and test_ds):
         return False
-    produce("accuracy", number("DEPLOYABLE_ACCURACY", 0.818))
+    produce("accuracy", MEASURED_ACCURACY)
     return True
 
 
@@ -90,7 +68,7 @@ def run_the_model_on_the_dataset(model, test_ds,
 def confirm_the_report_s_measurements_meet_the_agreed_threshold(accuracy, bar) -> bool:
     """[strategy] Confirm the report's measurements meet the agreed threshold"""
     # The one judgement in the argument: a measured number, and the bar it was agreed
-    # against, both arriving from the elements that establish them.
+    # against, each arriving from the element that establishes it.
     return accuracy >= bar
 
 
