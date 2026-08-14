@@ -3,18 +3,20 @@
 // jpipe process -f python -i deployable.jd -m deployable -o deployable.py
 justification deployable {
 
-    conclusion claim     is "The model is ready for deployment"
-    strategy   threshold is "Confront the report's measurements to the 80% bar"
+    conclusion claim     is "The model is performant enough for production"
+    strategy   threshold is "Confirm the report's measurements meet the agreed threshold"
+    evidence   agreed    is "A performance threshold is agreed upon (80%)"
 
-    sub-conclusion reporting   is "a report is available"
-    strategy       execution   is "executing the model on the dataset"
-    evidence       model       is "the model is available"
-    evidence       training_ds is "the training dataset is available"
+    sub-conclusion reporting is "A performance report is available"
+    strategy       execution is "Run the model on the dataset"
+    evidence       model     is "The model is available"
+    evidence       test_ds   is "The test dataset is available"
 
-    threshold   supports claim
-    reporting   supports threshold
-    execution   supports reporting
-    model       supports execution
-    training_ds supports execution
+    threshold supports claim
+    reporting supports threshold
+    agreed    supports threshold
+    execution supports reporting
+    model     supports execution
+    test_ds   supports execution
 
 }
