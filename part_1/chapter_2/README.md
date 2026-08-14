@@ -46,9 +46,9 @@ menu, or by name in the command palette:
 - **Convert Justification to Template** switches what a model is, and says up front how many
   `@support` elements the conversion would drop.
 
-**Tidy the file, from Source Action…** in the right-click menu, or by name in the palette:
-**jPipe: Auto-indent and Align** is where the aligned `is` columns in these files come from, so do not
-space them by hand. **jPipe: Organize Loads** sorts and de-duplicates the `load` statements at the top
+**Tidy the file.** **Format Document**, in the right-click menu, is where the aligned `is` columns in
+these files come from, so do not space them by hand. **jPipe: Organize Loads**, from **Source Action…**
+in the same menu or by name in the palette, sorts and de-duplicates the `load` statements at the top
 of a file, which matters from chapter 5 on, where models are split across files. Both run only when
 you ask: reordering your own source is a decision, not something that should happen while you save.
 
