@@ -1,0 +1,57 @@
+# Chapter 4, run the way a CI server runs it: compile the model to .json, then confront
+# the argument with the artifacts it claims exist.
+#
+# Triggered by hand, on purpose. This repository is teaching material, and
+# part_2/chapter_4/exercises/bindings.py is unfinished by design, so a job that fired on
+# every push would be red by design too. In a real project this is `on: push`.
+name: Justification (chapter 4)
+
+on:
+  workflow_dispatch:
+
+env:
+  # The compiler half of the pin. The runner half lives in Pipfile.lock.
+  JPIPE_VERSION: "2.4.0"
+
+jobs:
+  shippable:
+    # Named, not ubuntu-latest: the pinned compiler needs Java 25, which noble carries.
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # The release tarball ships jpipe.jar plus a launcher whose @@JAVA@@ and @@PREFIX@@
+      # placeholders the packaging channel substitutes at install time. Both runtime
+      # dependencies are in the Ubuntu archive, so this needs no PPA, and a tarball for a
+      # given tag stays available forever, which an apt version pin does not.
+      - name: Install the jPipe compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openjdk-25-jre-headless graphviz
+          curl -fsSL "https://github.com/jpipe-mcscert/jpipe-compiler/releases/download/v${JPIPE_VERSION}/jpipe-${JPIPE_VERSION}.tar.gz" \
+            | sudo tar xz -C /opt
+          sudo sed -i "s|@@JAVA@@|$(command -v java)|; s|@@PREFIX@@|/opt/jpipe-${JPIPE_VERSION}|" \
+            "/opt/jpipe-${JPIPE_VERSION}/jpipe"
+          sudo ln -sf "/opt/jpipe-${JPIPE_VERSION}/jpipe" /usr/local/bin/jpipe
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13" # matches [requires] in the Pipfile
+
+      - name: Install the jPipe runner
+        run: |
+          pip install pipenv
+          pipenv sync --dev # jpipe-runner, exactly as pinned in Pipfile.lock
+
+      # The two commands from 4.1, unchanged. shippable.json is not in the repository:
+      # it is compiler output, and CI generates it the same way you did.
+      - name: Compile the justification
+        working-directory: part_2/chapter_4
+        run: jpipe process -f json -i shippable.jd -m shippable -o shippable.json
+
+      # The finished bindings, not the exercise skeleton. No `if` and no log parsing: the
+      # runner exits non-zero when a check fails, so a broken argument fails the job.
+      - name: Check the argument against the artifacts
+        working-directory: part_2/chapter_4
+        run: pipenv run jpipe-runner -l solutions/bindings.py shippable.json
