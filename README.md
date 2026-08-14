@@ -72,7 +72,8 @@ page covers Homebrew, APT and Scoop, so pick the one line that matches your mach
    tutorial-re-2026 $ pipenv sync --dev   # installs jpipe-runner exactly as pinned in Pipfile.lock
    ```
 
-   That needs **Python 3.13** and [pipenv](https://pipenv.pypa.io/).
+   That needs **Python 3.13 or newer** and [pipenv](https://pipenv.pypa.io/). Anything from 3.13 up
+   works, so if your machine is already on a later version there is nothing to downgrade.
 
 ### Plan B: a Codespace
 
