@@ -35,11 +35,22 @@ justification deployable implements can_deploy {
 
 template partial implements can_deploy {
     sub-conclusion can_deploy:fair is "Fairness is ensured"
-    strategy       flip            is "Flip-rate is below 10%"
-    evidence       counterfactual  is "Counterfactual dataset is available"
-    evidence       model           is "Model is available"
+
+    strategy flip           is "Flip-rate is below 10%"
+    evidence counterfactual is "Counterfactual dataset is available"
+    evidence model          is "Model is available"
     flip           supports can_deploy:fair
     model          supports flip
     counterfactual supports flip
 }
 
+justification with_report implements partial {
+    sub-conclusion can_deploy:performant is "Threshold is ok"
+
+    strategy confirm is "Confirm measurement against the 80% threshold"
+    evidence report  is "Performance report is available"
+    confirm supports can_deploy:performant
+    report  supports confirm
+
+
+}
