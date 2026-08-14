@@ -35,7 +35,7 @@ jPipe is three tools that hand work to each other:
 ![The jPipe tool suite. On your computer, a developer works in the jPipe IDE; the jPipe compiler turns
 the model into a .json file, which the jPipe runner consumes. The same .json crosses to a CI/CD server,
 where a second jPipe runner checks it against the code base that other developers also push
-to](images/jpipe_toolsuite_final_v3.svg)
+to](images/jpipe_toolsuite_final.svg)
 
 - the **jPipe IDE**, a VS Code extension, is where `.jd` models are written and previewed;
 - the **jPipe compiler** turns a model into a diagram to show people, or into a `.json` description of

@@ -21,7 +21,7 @@ The **severe-error rate** counts how often it is wrong in the second way, and th
 Here is what the case study actually measured, for the three candidate models it built:
 
 ![Full metric dashboard for three candidate models: model A, model B and model C, each with accuracy,
-macro-F1, flip-rate, mean distance and severe errors](../../images/three_models_full_dashboard_v2.svg)
+macro-F1, flip-rate, mean distance and severe errors](../../images/three_models_full_dashboard.svg)
 
 Read the bottom row. **Model C** scores 0.030 on severe errors and clears the 5% bar; **model B**
 scores 0.051 and does not. Model C is the one you will be arguing about.

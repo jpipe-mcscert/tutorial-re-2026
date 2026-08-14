@@ -1,6 +1,7 @@
 <svg width="100%" viewBox="0 0 680 391.54" role="img" xmlns="http://www.w3.org/2000/svg" style="">
 <title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">The jPipe assemble operator, shown abstractly</title>
 <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">On the left, two independent justifications stacked vertically, each with its own author figure. Justification A is gold, justification B is maroon; each has an evidence node supporting a strategy supporting a conclusion, with arrows pointing upward. Both feed into a chip labelled assemble. On the right, the assembled justification keeps both coloured subtrees intact as sub-conclusions, with a new grey strategy and a new grey conclusion added on top, all arrows still pointing upward.</desc>
+<rect x="0" y="0" width="100%" height="100%" fill="#ffffff"/>
 <defs>
 <g id="pr">
 <path d="M -3,-88 C -11,-78 -18,-62 -21,-47 C -17,-46 -13,-46 -10,-46 C -11,-62 -7,-78 0,-88 Z" fill="#DBDBDB" stroke="none"/>
