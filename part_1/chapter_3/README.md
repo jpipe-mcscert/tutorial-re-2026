@@ -57,8 +57,7 @@ Worked answers are in [solutions/](solutions/). Read them after you have tried, 
 **File:** [exercises/01_graceful.jd](exercises/01_graceful.jd) · **Crib from:**
 [chapter_2/deployable.jd](../chapter_2/deployable.jd)
 
-**Starts on:** `[conclusion-supported] Conclusion 'claim' in model 'graceful' has no supporting
-strategy`
+**Starts on:** `conclusion-supported`, because nothing supports `claim` yet.
 
 Argue that the classifier fails gracefully. The conclusion is written for you; build the argument
 underneath it. The bar is 5%, and a bar needs a measurement to be held against, so below the
@@ -73,8 +72,8 @@ bar it is held to, the measurement, and the two artifacts the run needed.
 **File:** [exercises/02_quality_gate.jd](exercises/02_quality_gate.jd) · **Crib from:**
 [chapter_2/template.jd](../chapter_2/template.jd)
 
-**Starts on:** `[conclusion-supported]` for `holds`, and `[has-abstract-support] Template
-'quality_gate' declares no abstract supports`
+**Starts on:** `conclusion-supported`, for `holds`, and `has-abstract-support`, because a template
+with no hook is not a template.
 
 Before you type anything, sketch on paper the argument for **accuracy**: the accuracy has been
 measured, and it clears the 80% bar. Put that sketch next to what you wrote in 3.1.
@@ -92,8 +91,8 @@ template.
 **File:** [exercises/03_implements.jd](exercises/03_implements.jd) · **Crib from:**
 [chapter_2/template.jd](../chapter_2/template.jd)
 
-**Starts on:** `[sub-conclusion-supported]` for `quality_gate:measured`, and `[no-abstract-support]
-Abstract support 'quality_gate:bar' in justification 'graceful' was not overridden`
+**Starts on:** `no-abstract-support`, because `graceful` leaves `quality_gate:bar` unfilled, and
+`sub-conclusion-supported`, because nothing supports the hook that is filled.
 
 The template is restated at the top of the file so it stands on its own. Write `graceful` against it
 first. It is the same argument as 3.1, except that the conclusion and the confronting strategy now
