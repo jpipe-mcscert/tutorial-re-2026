@@ -2,8 +2,8 @@
 template can_deploy {
     conclusion claim      is "The model is ready for deployment"
     strategy   altogether is "Ensuring fairness and performance"
-    @support   fair       is "The model is fair"
-    @support   performant is "The model is performant"
+    @support   fair       is "The model shall be fair"
+    @support   performant is "The model shall be performant"
 
     altogether supports claim
     fair       supports altogether
