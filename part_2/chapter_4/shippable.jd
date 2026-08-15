@@ -7,7 +7,7 @@
 
 justification shippable {
 
-    conclusion claim   is "The classifier is fit to ship"
+    conclusion claim   is "(R13) The classifier is fit to ship"
     strategy   bar     is "The measured accuracy clears the 80% bar"
     evidence   model   is "The trained model is on disk"
     evidence   metrics is "The measurement report is on disk"

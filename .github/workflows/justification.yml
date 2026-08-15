@@ -1,85 +1,62 @@
-# Chapter 4, run the way a CI server runs it: compile the model to .json, then confront
-# the argument with the artifacts it claims exist.
+# Chapter 4, run the way a CI server runs it: confront the argument with the artifacts it
+# claims exist, and post the verdict on the pull request.
 #
-# Triggered by hand, on purpose. This repository is teaching material, and
-# part_2/chapter_4/exercises/bindings.py is unfinished by design, so a job that fired on
-# every push would be red by design too. In a real project this is `on: push`.
+# Nothing is compiled here. part_2/chapter_4/shippable.json is checked into the repository,
+# so this job installs neither the compiler nor the runner: the runner's own action brings
+# the runner, runs it, draws the diagram with each element's verdict on it, and fails the
+# job when a check fails.
 name: Justification (chapter 4)
 
 on:
-  # Launched by hand, with the world it should run against. The defaults are mocks/ as it
-  # stands in the repository, so an untouched run is the green one from 4.3.
+  pull_request:
+
+  # The same job, launched by hand, with the world it should run against. On a pull request
+  # none of these are set and the defaults below apply, which is the green run from 4.3.
   workflow_dispatch:
     inputs:
-      accuracy:
-        description: "The accuracy the report is read as holding"
-        default: "0.818"
       bar:
         description: "The bar the strategy applies"
         default: "0.80"
       model:
-        description: "The trained model is on disk"
-        type: choice
-        options: ["yes", "no"]
-        default: "yes"
+        description: "The trained model, in mocks/."
+        default: "model.txt"
       metrics:
-        description: "The measurement report is on disk"
-        type: choice
-        options: ["yes", "no"]
-        default: "yes"
+        description: "The measurement report, in mocks/"
+        default: "measurements.json"
 
-env:
-  # The compiler half of the pin. The runner half lives in Pipfile.lock.
-  JPIPE_VERSION: "2.5.0"
+permissions:
+  contents: write # the action commits the rendered diagram to its own branch
+  pull-requests: write # and posts a comment pointing at it
 
 jobs:
   shippable:
-    # Named, not ubuntu-latest: the pinned compiler needs Java 25, which noble carries.
+    # Named, not ubuntu-latest, so the job does not change under you when the label moves.
     runs-on: ubuntu-24.04
 
-    # The two breakages of 4.4, reachable from the Actions tab: lower the accuracy past
-    # the bar, or take an artifact away. solutions/bindings.py reads these four and
-    # nothing else, and falls back to mocks/ for every one that is left unset.
+    # The two breakages of 4.4, reachable from the Actions tab: raise the bar past what the
+    # model measured, or name a file that is not there. solutions/bindings.py reads these
+    # three and nothing else, and has a default written in for each, which is what the
+    # fallbacks here repeat so that a pull request run sets nothing empty.
     env:
-      SHIPPABLE_ACCURACY: ${{ inputs.accuracy }}
-      SHIPPABLE_BAR: ${{ inputs.bar }}
-      SHIPPABLE_MODEL: ${{ inputs.model }}
-      SHIPPABLE_METRICS: ${{ inputs.metrics }}
+      SHIPPABLE_BAR: ${{ inputs.bar || '0.80' }}
+      SHIPPABLE_MODEL: ${{ inputs.model || 'model.txt' }}
+      SHIPPABLE_METRICS: ${{ inputs.metrics || 'measurements.json' }}
 
     steps:
       - uses: actions/checkout@v4
 
-      # The release tarball ships jpipe.jar plus a launcher whose @@JAVA@@ and @@PREFIX@@
-      # placeholders the packaging channel substitutes at install time. Both runtime
-      # dependencies are in the Ubuntu archive, so this needs no PPA, and a tarball for a
-      # given tag stays available forever, which an apt version pin does not.
-      - name: Install the jPipe compiler
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y openjdk-25-jre-headless graphviz
-          curl -fsSL "https://github.com/jpipe-mcscert/jpipe-compiler/releases/download/v${JPIPE_VERSION}/jpipe-${JPIPE_VERSION}.tar.gz" \
-            | sudo tar xz -C /opt
-          sudo sed -i "s|@@JAVA@@|$(command -v java)|; s|@@PREFIX@@|/opt/jpipe-${JPIPE_VERSION}|" \
-            "/opt/jpipe-${JPIPE_VERSION}/jpipe"
-          sudo ln -sf "/opt/jpipe-${JPIPE_VERSION}/jpipe" /usr/local/bin/jpipe
-
-      - uses: actions/setup-python@v5
+      # The finished bindings, not the exercise skeleton, which is unfinished by design and
+      # would fail every pull request. Your own runs stay local until the exercise is done.
+      - name: Check the argument, and draw the verdict
+        uses: jpipe-mcscert/jpipe-runner@v3.5.3
         with:
-          python-version: "3.13" # the floor [requires] sets in the Pipfile
-
-      - name: Install the jPipe runner
-        run: |
-          pip install pipenv
-          pipenv sync --dev # jpipe-runner, exactly as pinned in Pipfile.lock
-
-      # The two commands from 4.1, unchanged. shippable.json is not in the repository:
-      # it is compiler output, and CI generates it the same way you did.
-      - name: Compile the justification
-        working-directory: part_2/chapter_4
-        run: jpipe process -f json -i shippable.jd -m shippable -o shippable.json
-
-      # The finished bindings, not the exercise skeleton. No `if` and no log parsing: the
-      # runner exits non-zero when a check fails, so a broken argument fails the job.
-      - name: Check the argument against the artifacts
-        working-directory: part_2/chapter_4
-        run: pipenv run jpipe-runner -l solutions/bindings.py shippable.json
+          # The same runner Pipfile.lock pins, so a run here and a run on your machine are
+          # the same runner. The action installs it from git, hence the tag.
+          version: v3.5.3
+          jd_file: part_2/chapter_4/shippable.json
+          library: part_2/chapter_4/solutions/bindings.py
+          # The diagram cannot be attached to a comment directly, so the action commits it
+          # to a branch of its own and links it from there. Nothing on main changes.
+          embed_image: "true"
+          image_branch: "diagram-images"
+          github-token: ${{ secrets.GITHUB_TOKEN }}

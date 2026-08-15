@@ -1,0 +1,44 @@
+{
+  "elements": [
+    {
+      "escaped": "r13_the_classifier_is_fit_to_ship",
+      "id": "shippable:claim",
+      "label": "(R13) The classifier is fit to ship",
+      "type": "conclusion"
+    },
+    {
+      "escaped": "the_measured_accuracy_clears_the_80_bar",
+      "id": "shippable:bar",
+      "label": "The measured accuracy clears the 80% bar",
+      "type": "strategy"
+    },
+    {
+      "escaped": "the_trained_model_is_on_disk",
+      "id": "shippable:model",
+      "label": "The trained model is on disk",
+      "type": "evidence"
+    },
+    {
+      "escaped": "the_measurement_report_is_on_disk",
+      "id": "shippable:metrics",
+      "label": "The measurement report is on disk",
+      "type": "evidence"
+    }
+  ],
+  "name": "shippable",
+  "type": "justification",
+  "relations": [
+    {
+      "source": "shippable:bar",
+      "target": "shippable:claim"
+    },
+    {
+      "source": "shippable:model",
+      "target": "shippable:bar"
+    },
+    {
+      "source": "shippable:metrics",
+      "target": "shippable:bar"
+    }
+  ]
+}
