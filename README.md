@@ -99,6 +99,31 @@ tutorial-re-2026 $ jpipe process -f python -i part_1/chapter_2/deployable.jd -m 
 
 `-m` names the model to export, since one `.jd` file can hold several.
 
+## References
+
+The tools, the people, and the work this tutorial is built on.
+
+- **[jPipe](https://www.jpipe.org)**, the language, the compiler, the IDE and the runner.
+- **[McMaster Centre for Software Certification (McSCert)](https://www.eng.mcmaster.ca/mcscert/)**,
+  where jPipe is developed.
+- **[Sébastien Mosser](https://mosser.github.io/)** and
+  **[Kalvin Thuan-Phong Khuu](https://kalvinkhuu.github.io/)**, the authors of this tutorial.
+
+Publications behind the material:
+
+- S. Mosser, S. Ravichandran, K. T.-P. Khuu, B. Detlor, D. Y. Geiskkovitch, A.-M. Pinna-Déry and
+  P. J. White. *Capturing and Organizing Reusable Interaction Practices Using Justification and
+  Feature Models*. Journal of Object Technology, 25(3):183-196, 2026.
+  [10.5381/jot.2026.25.3.a14](https://www.jot.fm/contents/issue_2026_03/a14.html)
+- K. T.-P. Khuu, N. Lacroix, M. Blay-Fornarino and S. Mosser. *Safety First! Modelling Requirements
+  from GPT-5 System Card using Lightweight Safety Models*. MoDRE 2026, the 16th Model-Driven
+  Requirements Engineering Workshop, co-located with IEEE RE 2026.
+  [hal-05681913](https://hal.science/hal-05681913)
+- K. T.-P. Khuu, N. Lacroix, B. Lacroix, R. Paige, M. Blay-Fornarino and S. Mosser. *Model Cards for
+  Responsible AI: Stop Carding, Start Modelling*. ICSE-SEET 2026, the IEEE/ACM 48th International
+  Conference on Software Engineering.
+  [hal-05679580](https://hal.science/hal-05679580v1)
+
 ## License
 
 MIT. See [LICENSE](./LICENSE).
