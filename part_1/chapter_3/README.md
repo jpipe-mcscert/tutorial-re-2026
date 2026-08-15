@@ -132,7 +132,17 @@ two or three of those, and for each one decide what it would take in jPipe terms
 a fact you can point at; a sub-conclusion with a strategy under it, if it is something that has to be
 established; or a leaf cited from elsewhere, the way `quality_gate:bar` cites a checklist.
 
-Both questions run into the same limit: `graceful` and `accurate` are two arguments about one model,
-and one file per argument stops being workable as soon as they are owned by different people. Putting
-separate arguments together, and going deeper under a leaf that turns out to need it, is what part 2
-comes back to. Leave it until then.
+## Where this goes
+
+You can now write a model: a justification from a conclusion downwards, a template, and
+implementations of it. Two things about what you wrote are worth naming before part 2.
+
+Nothing in it has been confronted with anything. `graceful` says the trained model is available, and
+it says so on a machine where no such file need exist. Chapter 4 gives every element a Python
+function and has the runner call them, so an element that claims something untrue fails, and the
+conclusion above it is no longer claimed.
+
+And all of it sits in one file, written by one person. `graceful` and `accurate` are two arguments
+about one model, kept side by side because nothing here can put them together. Chapter 5 splits
+models across files and gathers them back, and gives an argument of its own to a leaf that turns out
+to need one.
