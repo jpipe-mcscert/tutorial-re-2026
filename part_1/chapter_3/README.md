@@ -44,8 +44,9 @@ switches it between the diagram and the diagnostic view, where the *Problems* ta
 missing. It is the last icon in the toolbar whatever the panel is showing, and the report is redrawn
 every time you save.
 
-Look before you write. Each stub is deliberately incomplete, and each exercise below opens with the
-errors it starts on. Those errors are your checklist, and you are done when *Problems* is empty.
+Look before you write. Each stub is deliberately incomplete, and each exercise below opens with what
+the editor reports on it untouched. Those errors are your checklist, and you are done when *Problems*
+is empty.
 
 To keep a diagram rather than look at it, use the download icon in the preview toolbar and pick a
 format, or right-click and choose **jPipe**, then *Download as SVG*.
@@ -57,7 +58,7 @@ Worked answers are in [solutions/](solutions/). Read them after you have tried, 
 **File:** [exercises/01_graceful.jd](exercises/01_graceful.jd) · **Crib from:**
 [chapter_2/deployable.jd](../chapter_2/deployable.jd)
 
-**Starts on:** `conclusion-supported`, because nothing supports `claim` yet.
+**Starts on:** `Conclusion 'claim' is not supported by any strategy.`
 
 Argue that the classifier fails gracefully. The conclusion is written for you; build the argument
 underneath it. The bar is 5%, and a bar needs a measurement to be held against, so below the
@@ -72,8 +73,10 @@ bar it is held to, the measurement, and the two artifacts the run needed.
 **File:** [exercises/02_quality_gate.jd](exercises/02_quality_gate.jd) · **Crib from:**
 [chapter_2/template.jd](../chapter_2/template.jd)
 
-**Starts on:** `conclusion-supported`, for `holds`, and `has-abstract-support`, because a template
-with no hook is not a template.
+**Starts on:**
+
+- `Template 'quality_gate' declares no abstract supports`
+- `Conclusion 'holds' is not supported by any strategy.`
 
 Before you type anything, sketch on paper the argument for **accuracy**: the accuracy has been
 measured, and it clears the 80% bar. Put that sketch next to what you wrote in 3.1.
@@ -91,8 +94,8 @@ template.
 **File:** [exercises/03_implements.jd](exercises/03_implements.jd) · **Crib from:**
 [chapter_2/template.jd](../chapter_2/template.jd)
 
-**Starts on:** `no-abstract-support`, because `graceful` leaves `quality_gate:bar` unfilled, and
-`sub-conclusion-supported`, because nothing supports the hook that is filled.
+**Starts on:** `Justification 'graceful' must override '@support bar' from template 'quality_gate'.
+Expected element with id 'quality_gate:bar'.`
 
 The template is restated at the top of the file so it stands on its own. Write `graceful` against it
 first. It is the same argument as 3.1, except that the conclusion and the confronting strategy now
