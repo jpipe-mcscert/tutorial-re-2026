@@ -17,10 +17,12 @@ from jpipe_runner.framework.decorators.link_decorator import jpipe_link
 
 JpipeProduce = Callable[[str, Any], None]
 
-#: What the run measured, and the bar it was agreed against.
-MEASURED_ACCURACY = 0.818
-AGREED_BAR = 0.80
+###                               ###
+## Mocked valued for demo purposes ##
+###                               ###
 
+MEASURED_ACCURACY = 0.818  # What the run measured
+AGREED_BAR = 0.80          # the bar it was agreed against.
 
 ###          ###
 ## deployable ##

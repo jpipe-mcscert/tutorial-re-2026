@@ -36,3 +36,24 @@ justification deployable_v1 {
     model       supports execution
     training_ds supports execution
 }
+
+
+justification deployable_v3 {
+
+    conclusion claim     is "(R12) The model is performant enough for production"
+    strategy   threshold is "Confirm the report's measurements meet the agreed threshold"
+    evidence   agreed    is "(R23) A performance threshold is agreed upon (80%)"
+
+    sub-conclusion reporting is "(R43) A performance report is published"
+    strategy       execution is "Run the model on the dataset"
+    evidence       model     is "The model is available"
+    evidence       test_ds   is "(R02) The test dataset is available"
+
+    threshold supports claim
+    reporting supports threshold
+    agreed    supports threshold
+    execution supports reporting
+    model     supports execution
+    test_ds   supports execution
+
+}

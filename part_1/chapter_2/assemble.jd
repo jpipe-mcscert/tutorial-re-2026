@@ -1,5 +1,5 @@
 justification fairness  {
-    conclusion fair           is "Fairness is ensured"
+    conclusion fair           is "(R1) The model shall be fair"
     strategy   flip           is "Flip-rate is below 10%"
     evidence   counterfactual is "Counterfactual dataset is available"
     evidence   model          is "Model is available"
@@ -10,7 +10,7 @@ justification fairness  {
 
 
 justification performance {
-    conclusion performant is "Performance is ensured"
+    conclusion performant is "(R2) The model shall be performant"
     strategy   accuracy   is "Accuracy is greater than 85"
     evidence   model      is "Model is available"
     evidence   test       is "Test dataset is available"
