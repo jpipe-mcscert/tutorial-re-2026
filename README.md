@@ -1,4 +1,4 @@
-# Justifying Software with jPipe: Tutorial (RE 2026)
+# Validating Requirements of Machine Learning Pipelines with Justification Models (IEEE RE 2026)
 
 ## Authors
 
