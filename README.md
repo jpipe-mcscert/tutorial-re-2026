@@ -14,13 +14,10 @@ it against the artifacts it claims exist.
 The tutorial runs in **two parts of three chapters each**, and a chapter ships whichever of these it
 needs:
 
-- **slides**, what is presented at that point in the tutorial;
 - **examples**, the `.jd` models shown on those slides, in runnable form;
 - **exercises**, what participants write themselves;
 - **solutions**, one worked answer per exercise.
 
-Chapters alternate rather than each carrying all four: chapter 2 is worked examples, chapter 3 is the
-exercises that build on them. A chapter with exercises states them in its own `README.md`.
 
 The running example throughout is the **emotion detection case study**
 ([jpipe-tutorial-2026](https://github.com/jpipe-mcscert/jpipe-tutorial-2026)): a classifier that is
@@ -49,6 +46,16 @@ every time anyone pushes, which is what stops an assurance case from rotting the
 
 ## Setup
 
+The quickest way in is a Codespace, where the compiler, Java, Graphviz, Python and the runner are all
+preinstalled and the repository is already cloned:
+
+**https://codespaces.new/jpipe-mcscert/tutorial-re-2026**
+
+A real Codespace is required: pressing `.` for github.dev does not work, as the jPipe extension has no
+web build.
+
+### Plan B: install the tools yourself
+
 Clone this repository, then install the three tools from the jPipe site, in this order. Each install
 page covers Homebrew, APT and Scoop, so pick the one line that matches your machine:
 
@@ -74,16 +81,6 @@ page covers Homebrew, APT and Scoop, so pick the one line that matches your mach
 
    That needs **Python 3.13 or newer** and [pipenv](https://pipenv.pypa.io/). Anything from 3.13 up
    works, so if your machine is already on a later version there is nothing to downgrade.
-
-### Plan B: a Codespace
-
-If the local install fights back on the day, open the repository in a GitHub Codespace, where the
-compiler, Java, Graphviz, Python and the runner are all preinstalled:
-
-**https://codespaces.new/jpipe-mcscert/tutorial-re-2026**
-
-A real Codespace is required: pressing `.` for github.dev does not work, as the jPipe extension has no
-web build.
 
 ## Working with the models
 
