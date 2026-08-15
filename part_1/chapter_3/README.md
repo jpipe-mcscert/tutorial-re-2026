@@ -115,12 +115,8 @@ Two things to watch as you go:
 
 ## If you finish early
 
-One thing to build, and two questions to answer with whoever is sitting next to you. Neither question
-has a single right answer, and the first runs into what chapter 5 does with `assemble` and `refine`.
-
-**Build it wider.** Chapter 2's [assemble.jd](../chapter_2/assemble.jd) shows how to combine two
-justifications into one. Assemble `graceful` and `accurate` into a single claim that the model is
-ready for deployment.
+Two questions to answer with whoever is sitting next to you. Neither has a single right answer, and
+neither needs you to write any more jPipe.
 
 **How would you enrich this argument one step at a time?** You have a model that clears two bars.
 Take one addition at a time and say where it attaches: a third metric under the same template, a
@@ -135,3 +131,8 @@ attributes that were deliberately left out, and a run somebody would have to be 
 two or three of those, and for each one decide what it would take in jPipe terms: evidence, if it is
 a fact you can point at; a sub-conclusion with a strategy under it, if it is something that has to be
 established; or a leaf cited from elsewhere, the way `quality_gate:bar` cites a checklist.
+
+Both questions run into the same limit: `graceful` and `accurate` are two arguments about one model,
+and one file per argument stops being workable as soon as they are owned by different people. Putting
+separate arguments together, and going deeper under a leaf that turns out to need it, is what part 2
+comes back to. Leave it until then.
