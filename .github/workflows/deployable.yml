@@ -1,9 +1,9 @@
 # Chapter 2's example, checked on every pull request: the argument in
 # part_1/chapter_2/deployable.json, confronted with the bindings beside it.
 #
-# This is the shape a project uses day to day. Nobody launches it, nobody reads a log to
-# find out how it went, and the answer arrives where the change is being discussed: as a
-# check on the pull request, green while the argument still holds and red when it stops.
+# This is the shape a project uses day to day. Nobody launches it, and nobody opens a log
+# to find out how it went: the report is posted on the pull request itself, next to the
+# change that caused it, and the check goes red when the argument stops holding.
 #
 # The model is not compiled here. deployable.json is checked into the repository, so this
 # job needs the runner and nothing else, and it starts without installing Java, Graphviz
@@ -13,6 +13,10 @@ name: Justification (chapter 2)
 
 on:
   pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write # so the job can post its report as a comment
 
 jobs:
   deployable:
@@ -30,8 +34,43 @@ jobs:
           pip install pipenv
           pipenv sync --dev # jpipe-runner, exactly as pinned in Pipfile.lock
 
-      # No `if` and no log parsing: the runner exits non-zero as soon as a check fails, so
-      # an argument that has stopped holding turns the check red on its own.
+      # The runner exits non-zero as soon as a check fails, and that verdict is the point
+      # of the job. It is caught here rather than allowed to end the run, so that the
+      # report reaches the pull request either way, and re-raised in the last step.
       - name: Check the argument
+        id: check
         working-directory: part_1/chapter_2
-        run: pipenv run jpipe-runner -l deployable.py deployable.json
+        run: |
+          set +e
+          pipenv run jpipe-runner -l deployable.py deployable.json > run.log 2>&1
+          echo "verdict=$?" >> "$GITHUB_OUTPUT"
+          sed -i 's/\x1b\[[0-9;]*m//g' run.log # the runner colours its report for a terminal
+          cat run.log
+
+      # Only the element lines and the count: the runner's banner is for a terminal, not
+      # for a pull request. A fork's token cannot write here, so this step is skipped for
+      # pull requests from forks, and the check itself still reports the verdict.
+      - name: Post the report on the pull request
+        if: always() && github.event.pull_request.head.repo.full_name == github.repository
+        working-directory: part_1/chapter_2
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          {
+            if [ "${{ steps.check.outputs.verdict }}" = "0" ]; then
+              echo "### The \`deployable\` argument still holds"
+            else
+              echo "### The \`deployable\` argument no longer holds"
+            fi
+            echo
+            echo '```'
+            grep -E 'PASS|FAIL|SKIP|justification,' run.log
+            echo '```'
+            echo
+            echo "\`deployable.json\` checked against \`deployable.py\` at ${{ github.event.pull_request.head.sha }}."
+          } > report.md
+          gh pr comment "${{ github.event.pull_request.number }}" --body-file report.md
+
+      - name: Report the verdict
+        if: always()
+        run: exit ${{ steps.check.outputs.verdict }}
