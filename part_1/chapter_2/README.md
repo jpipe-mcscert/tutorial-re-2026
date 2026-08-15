@@ -10,13 +10,13 @@ By the end of this chapter, you can:
 
 Every task below happens in [deployable.jd](deployable.jd), so open that file and leave it open. It
 holds two justifications: `deployable`, and `deployable_v1`, the same argument in a rougher state.
-Both compile, and `jpipe diagnostic -i deployable.jd` reports `(none)` before you start.
+Both compile, and `jpipe diagnostic -i part_1/chapter_2/deployable.jd` reports `(none)` before you start.
 
 The tasks build on each other, and each one changes the file. When you are done, or whenever you want
 to start over:
 
 ```sh
-git checkout part_1/chapter_2/deployable.jd
+tutorial-re-2026 $ git checkout part_1/chapter_2/deployable.jd
 ```
 
 You do not need to run the compiler yourself. The extension you installed in
@@ -114,7 +114,7 @@ structure of the argument, and the sentence is yours to write.
 
 The last icon in the preview toolbar, the notepad, switches the panel to the **diagnostic view**. It
 is the last icon whatever the panel is showing, so it stays in the same place. It shows the output of
-`jpipe diagnostic -i deployable.jd`, run for you, in four tabs, each carrying a count:
+`jpipe diagnostic -i part_1/chapter_2/deployable.jd`, run for you, in four tabs, each carrying a count:
 
 - **Problems**, what would stop the file compiling, and empty by now;
 - **Models**, the two justifications with a census of what each is made of;
@@ -134,5 +134,5 @@ click, and Problems is empty.
 ## Put it back
 
 ```sh
-git checkout part_1/chapter_2/deployable.jd
+tutorial-re-2026 $ git checkout part_1/chapter_2/deployable.jd
 ```

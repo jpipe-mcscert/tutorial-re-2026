@@ -29,49 +29,50 @@ AGREED_BAR = 0.80          # the bar it was agreed against.
 ###          ###
 
 @jpipe_link("deployable:agreed")
-@jpipe(produce=["bar"])
+@jpipe(produce=["agreed_bar"])
 def a_performance_threshold_is_agreed_upon_80(produce: JpipeProduce) -> bool:
     """[evidence] A performance threshold is agreed upon (80%)"""
-    produce("bar", AGREED_BAR)
+    produce("agreed_bar", AGREED_BAR)
     return True
 
 
 @jpipe_link("deployable:model")
-@jpipe(produce=["model"])
+@jpipe(produce=["trained_model"])
 def the_model_is_available(produce: JpipeProduce) -> bool:
     """[evidence] The model is available"""
-    produce("model", "emotion-classifier-c")
+    produce("trained_model", "emotion-classifier-c")
     return True
 
 
 @jpipe_link("deployable:test_ds")
-@jpipe(produce=["test_ds"])
+@jpipe(produce=["dataset"])
 def the_test_dataset_is_available(produce: JpipeProduce) -> bool:
     """[evidence] The test dataset is available"""
-    produce("test_ds", "test-split")
+    produce("dataset", "test-split")
     return True
 
 
 @jpipe_link("deployable:execution")
-@jpipe(produce=["accuracy"], consume=["model", "test_ds"])
-def run_the_model_on_the_dataset(model, test_ds,
+@jpipe(produce=["measured_accuracy"], consume=["trained_model", "dataset"])
+def run_the_model_on_the_dataset(trained_model, dataset,
                                  produce: JpipeProduce) -> bool:
     """[strategy] Run the model on the dataset"""
     # A run needs both of the things below it, and produces the measurement the argument
     # is about. It reads no bar: whether the number is good enough is not its call.
-    if not (model and test_ds):
+    if not (trained_model and dataset):
         return False
-    produce("accuracy", MEASURED_ACCURACY)
+    produce("measured_accuracy", MEASURED_ACCURACY)
     return True
 
 
 @jpipe_link("deployable:threshold")
-@jpipe(consume=["accuracy", "bar"])
-def confirm_the_report_s_measurements_meet_the_agreed_threshold(accuracy, bar) -> bool:
+@jpipe(consume=["measured_accuracy", "agreed_bar"])
+def confirm_the_report_s_measurements_meet_the_agreed_threshold(measured_accuracy,
+                                                               agreed_bar) -> bool:
     """[strategy] Confirm the report's measurements meet the agreed threshold"""
     # The one judgement in the argument: a measured number, and the bar it was agreed
     # against, each arriving from the element that establishes it.
-    return accuracy >= bar
+    return measured_accuracy >= agreed_bar
 
 
 # The runner passes this claim through unless it is bound. Uncomment to check it.

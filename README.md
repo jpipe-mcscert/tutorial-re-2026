@@ -90,14 +90,14 @@ web build.
 Check a model for errors:
 
 ```sh
-jpipe diagnostic -i part_1/chapter_2/deployable.jd
+tutorial-re-2026 $ jpipe diagnostic -i part_1/chapter_2/deployable.jd
 ```
 
 Export one model from a file, as a diagram or as something executable:
 
 ```sh
-jpipe process -f svg    -i part_1/chapter_2/deployable.jd -m deployable -o deployable.svg
-jpipe process -f python -i part_1/chapter_2/deployable.jd -m deployable -o deployable.py
+tutorial-re-2026 $ jpipe process -f svg    -i part_1/chapter_2/deployable.jd -m deployable -o deployable.svg
+tutorial-re-2026 $ jpipe process -f python -i part_1/chapter_2/deployable.jd -m deployable -o deployable.py
 ```
 
 `-m` names the model to export, since one `.jd` file can hold several.
