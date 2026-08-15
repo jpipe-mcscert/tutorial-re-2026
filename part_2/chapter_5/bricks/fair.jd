@@ -6,7 +6,7 @@
 
 justification fair {
 
-    conclusion claim is "The classifier is fair"
+    conclusion claim is "(R1) The classifier shall be fair"
     strategy   flip  is "The flip-rate is below 10%"
 
     evidence counterfactual is "The counterfactual dataset is trustworthy"

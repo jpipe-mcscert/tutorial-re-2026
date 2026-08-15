@@ -2,31 +2,38 @@
 //
 // ../bricks/graceful.jd says "The test dataset is trustworthy" and stops there, as a leaf.
 // That is a large thing to assert without argument. ../bricks/trustworthy.jd is the
-// argument for it, written separately.
+// argument for it, written separately by whoever cared about the dataset.
 //
 // Check your work with:   jpipe diagnostic -i 02_refine.jd
 
 load "../bricks/graceful.jd"
-load "../bricks/trustworthy.jd"
 
-// TODO write a justification named `graceful_deep` that refines `graceful` with
-// `trustworthy`:
+// TODO 1. load ../bricks/trustworthy.jd, beside the load above.
 //
-//   justification <name> is refine(<base>, <detail>) {
-//       hook: "<element id>"
-//   }
+//         Type `load "` and press ⌃Space if you would rather pick the path than type it.
+
+// TODO 2. write a justification named `graceful_deep` that refines `graceful` with
+//         `trustworthy`:
 //
-// The hook is an element id *from the base*, naming the node that gets replaced. Open
-// graceful.jd and find the id of the leaf about the test dataset.
+//         justification <name> is refine(<base>, <detail>) {
+//             hook: "<element id>"
+//         }
 //
-// The result needs a new name. A model cannot refine itself into its own name, and the
-// compiler will say so plainly if you try.
+//         refine takes exactly two models, and the order is the meaning: the base first,
+//         the argument being grafted in second.
 //
-// Two things worth doing on purpose once it works:
+//         Inside the quotes after `hook:`, press ⌃Space. The editor lists the evidence
+//         leaves of the base, each with its label beside it, because a leaf is the only
+//         thing a refinement can replace. Pick the one about the test dataset.
 //
-//   1. Put a wrong id in the hook and read the error. Then try an id that exists in
-//      `trustworthy` rather than in `graceful`, and notice you get the same error. The
-//      hook only ever looks in the base.
+//         The result needs a name of its own. A model cannot refine itself into its own
+//         name, and the compiler says so plainly if you try.
+
+// TODO 3. two things worth doing on purpose once it works:
 //
-//   2. Compare the element counts of `graceful` and `graceful_deep` in the model summary.
-//      One node changed kind. Which one, and to what?
+//         1. put a wrong id in the hook and read the error. Then try an id that exists in
+//            `trustworthy` rather than in `graceful`, and notice you get the same error.
+//            The hook only ever looks in the base.
+//
+//         2. compare the element counts of `graceful` and `graceful_deep` in the model
+//            summary. One node changed kind. Which one, and to what?

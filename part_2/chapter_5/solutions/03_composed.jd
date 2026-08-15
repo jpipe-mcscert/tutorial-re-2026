@@ -1,24 +1,18 @@
 // Solution to 5.3: the two operators meet.
 //
-// Depth first, then breadth. `graceful_deep` is the refined brick from 5.2; it goes into
-// the assembly in place of the plain one, and `fair` and `performant` join it unchanged.
+// Depth first, then breadth. `graceful_deep` is not rewritten here: it is loaded from
+// 02_refine.jd, the file that built it, and arrives like any other model.
 //
-// Then count the evidence in the result and compare it with 5.1. `performant` still says,
-// in its own file, that the test dataset is trustworthy, as a bare leaf. But that label
-// now also belongs to the sub-conclusion the refinement created, so the two meet as one
-// node, and performant's leaf arrives already argued.
+// Then count the evidence in the result and compare it with 5.1. `performant` still cites
+// the requirement about the test dataset as a bare leaf, in its own file. That label now
+// also belongs to the sub-conclusion the refinement created, so the two meet as one node,
+// and performant's leaf arrives already argued.
 //
-// Nobody edited performant.jd. It got the deeper argument because it worded its evidence
-// the same way graceful did.
+// Nobody edited performant.jd.
 
+load "02_refine.jd"
 load "../bricks/fair.jd"
 load "../bricks/performant.jd"
-load "../bricks/graceful.jd"
-load "../bricks/trustworthy.jd"
-
-justification graceful_deep is refine(graceful, trustworthy) {
-    hook: "test"
-}
 
 // The bricks can be listed in any order: put `performant` first and you get the same
 // model. Where two of them meet on a label and disagree about what kind of node it is,

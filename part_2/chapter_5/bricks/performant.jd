@@ -6,10 +6,10 @@
 
 justification performant {
 
-    conclusion claim is "The classifier is performant"
+    conclusion claim is "(R2) The classifier shall be performant"
     strategy   bar   is "The accuracy clears the 80% bar"
 
-    evidence test  is "The test dataset is trustworthy"
+    evidence test  is "(R4) The test dataset shall be trustworthy"
     evidence model is "The trained model is available"
 
     bar   supports claim

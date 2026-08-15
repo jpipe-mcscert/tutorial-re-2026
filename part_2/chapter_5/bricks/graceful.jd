@@ -6,14 +6,14 @@
 
 justification graceful {
 
-    conclusion claim is "The classifier fails gracefully"
+    conclusion claim is "(R3) The classifier shall fail gracefully"
     strategy   bar   is "The severe-error rate is below 5%"
 
-    evidence test  is "The test dataset is trustworthy"
-    evidence model is "The trained model is available"
+    evidence test_ds is "The test dataset is trustworthy"
+    evidence model   is "The trained model is available"
 
-    bar   supports claim
-    test  supports bar
-    model supports bar
+    bar     supports claim
+    test_ds supports bar
+    model   supports bar
 
 }

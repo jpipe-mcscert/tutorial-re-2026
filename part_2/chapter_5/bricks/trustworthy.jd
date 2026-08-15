@@ -9,7 +9,7 @@
 
 justification trustworthy {
 
-    conclusion claim  is "The test dataset is trustworthy"
+    conclusion claim  is "(R4) The test dataset shall be trustworthy"
     strategy   checks is "The split is disjoint and every label is valid"
 
     evidence disjoint is "No test row appears in the training split"

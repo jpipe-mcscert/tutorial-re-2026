@@ -1,26 +1,34 @@
-// Exercise 5.1 - three bricks, one roof.
+// Exercise 5.1 - two bricks first, then a third.
 //
-// The three quality lenses of the case study are argued in ../bricks/, one file each.
-// None of them mentions the others. Your job is to gather them under a single claim
-// without editing any of them.
+// The quality lenses of the case study are argued in ../bricks/, one file each. None of
+// them mentions the others. Your job is to gather them under a single claim without
+// editing any of them.
+//
+// Two of the three are loaded below. The third is yours to load, in step 2.
 //
 // Check your work with:   jpipe diagnostic -i 01_assemble.jd
-// Crib the syntax from:   ../../../part_1/chapter_2/assemble.jd
 
 load "../bricks/fair.jd"
 load "../bricks/performant.jd"
-load "../bricks/graceful.jd"
 
-// TODO write a justification named `deployable` that assembles the three bricks above.
+// TODO 1. write a justification named `deployable` that assembles the two bricks above.
 //
-//   justification <name> is assemble(<brick>, <brick>, <brick>) {
-//       conclusionLabel: "..."
-//       strategyLabel:   "..."
-//   }
+//         justification <name> is assemble(<brick>, <brick>) {
+//             conclusionLabel: "..."
+//             strategyLabel:   "..."
+//         }
 //
-// assemble does not invent the new claim for you: you supply both labels. The conclusion
-// is what the three lenses together let you say, and the strategy is why those three are
-// the right three.
+//         Let the editor write most of it: type `is ` and press ⌃Space for the operator,
+//         press it again inside the parentheses for the models in scope, and again inside
+//         the braces for the keys assemble requires.
 //
-// Run the diagnostic now, before writing anything. The model summary lists the three
-// bricks and nothing else. When `deployable` appears in that list, you have built it.
+//         assemble does not invent the new claim for you. The conclusion is what these
+//         lenses together let you say, and the strategy is why those are the right ones.
+
+// TODO 2. load ../bricks/graceful.jd as well, and add it to the assembly.
+//
+//         Type `load "` and press ⌃Space: the editor lists the .jd files it can see from
+//         here, so the path is picked rather than typed.
+//
+//         Then add the brick to the call and read the summary again. Both counts move,
+//         and one of them moves by less than you might expect.

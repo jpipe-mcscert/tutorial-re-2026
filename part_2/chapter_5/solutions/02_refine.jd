@@ -12,5 +12,5 @@ load "../bricks/graceful.jd"
 load "../bricks/trustworthy.jd"
 
 justification graceful_deep is refine(graceful, trustworthy) {
-    hook: "test"
+    hook: "test_ds"
 }
