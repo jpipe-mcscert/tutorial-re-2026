@@ -1,11 +1,17 @@
 # Chapter 4: Executing a model
 
-Everything you wrote in part 1 was drawn, not run. A drawn argument will happily claim that a model is
-fit to ship on a machine where no model exists, because nothing ever went and looked. This chapter is
-where that stops.
+By the end of this chapter, you can:
+
+- compile a `.jd` model into the two files the jPipe runner needs, and run them;
+- write the execution layer: evidence leaves that report a fact and hand it on, and a strategy that
+  judges what they handed it;
+- read the two shapes a failing run takes, and have a server re-check the argument without you.
+
+Everything you wrote in part 1 was drawn, not run: a drawn argument claims that a model is fit to
+ship on a machine where no model exists, because nothing ever went and looked.
 
 The model is given to you complete in [shippable.jd](shippable.jd). Your work is the layer underneath
-it: a Python function per element, each one answering its element's question about the world.
+it, a Python function per element, each answering its element's question about the world.
 
 ```
 claim      The classifier is fit to ship        <- concluded, never executed
@@ -14,20 +20,20 @@ model      The trained model is on disk         <- a fact
 metrics    The measurement report is on disk    <- a fact
 ```
 
-## What is being mocked, and why
+## What is mocked, and why
 
-A real classifier would drag a whole toolchain behind it, and this chapter is not about classifiers.
-So the artifacts are stand-ins, in [mocks/](mocks/):
+A real classifier would drag a whole toolchain behind it, and this chapter is not about classifiers,
+so the artifacts are stand-ins, in [mocks/](mocks/):
 
 - [mocks/model.txt](mocks/model.txt), a text file where a trained model would be;
 - [mocks/measurements.json](mocks/measurements.json), the numbers a real evaluation run would emit.
 
 The numbers are **model C's column from the dashboard** in chapter 3, so the accuracy your argument
-is about to check is one you have already looked at. Nothing else changes: a binding that reads a
-mock and a binding that reads the real thing differ only in what is behind the file name.
+is about to check is one you have already looked at. A binding that reads a mock and a binding that
+reads the real thing differ only in what is behind the file name.
 
 This chapter adds **no dependency**. `json` and `pathlib` from the standard library are all you need,
-and the runner is already pinned in `Pipfile.lock`.
+and the runner is pinned in `Pipfile.lock`.
 
 ## Setting up
 
@@ -54,9 +60,8 @@ jpipe process -f json   -i shippable.jd -m shippable -o shippable.json
 jpipe process -f python -i shippable.jd -m shippable -o skeleton.py
 ```
 
-Those two commands are the two cards on the left of the figure. Note that the report on the right has
-a failing check in it: a report where everything always passes would be telling you nothing, which is
-what 4.4 is about.
+Those two commands are the two cards on the left of the figure. The report on the right has a failing
+check in it, which is what 4.4 is about.
 
 Open `skeleton.py`. There is one function per element, each tied to its element by
 `@jpipe_link("shippable:<id>")`, and every body is `pass`. That skeleton is the starting point of
@@ -69,20 +74,27 @@ Now run it:
 pipenv run jpipe-runner -l exercises/bindings.py shippable.json
 ```
 
-It refuses, and it tells you why:
+It refuses, and it says why:
 
 ```
-[EvidenceDependencyValidator] evidence node does not produce any variables.
+[EvidenceDependencyValidator]
+Pipeline validation error: evidence node does not produce any variables.
   • Element: shippable:model ("The trained model is on disk") [evidence]
+  • Problem: This evidence node produces no output variables.
+  • Impact: Connected strategies will receive no inputs from this evidence.
   • Fix: Ensure the function bound to shippable:model calls produce(...) at least once.
 ```
 
-**Let the tool lead for the rest of this chapter.** The runner checks the wiring before it runs
-anything, and each complaint names the next thing to do. You will meet three in order: leaves that
-produce nothing, then leaves whose output nobody consumes, then functions that forget to return a
-verdict. Fix the one in front of you and run again.
+The same block follows for `shippable:metrics`.
 
-**Done when:** you have `shippable.json`, and you have read the error above rather than skipped past it.
+**Let the tool lead for the rest of this chapter.** The runner checks the wiring before it runs
+anything, and each complaint names the next thing to do. There are two of those, in order: leaves
+that produce nothing, then leaves whose output nobody consumes. Once the wiring holds, the run
+itself starts, and a function that returns nothing counts as a failed check. Fix the complaint in
+front of you and run again.
+
+**Done when:** you have `shippable.json`, and you have read the error above rather than skipped past
+it.
 
 ## 4.2: Make the facts real
 
@@ -97,29 +109,29 @@ Each leaf needs three things:
 2. a call to `produce("model", <value>)` with what it found;
 3. `return True` when the artifact is there, **`return False` when it is not**.
 
-That last one matters. Returning `False` is not an error, it is a verdict, and it is one this argument
-is allowed to reach. Raising an exception instead throws away the runner's ability to tell you *which*
-part of the argument stopped holding.
+Returning `False` is not an error, it is a verdict, and it is one this argument is allowed to reach.
+Raising an exception instead throws away the runner's ability to tell you which part of the argument
+stopped holding.
 
-**Done when:** the `EvidenceDependencyValidator` error changes. It will not disappear, it will become
-a different complaint, because the leaves now produce something that nothing consumes yet. That is 4.3.
+**Done when:** the `EvidenceDependencyValidator` error changes. It does not disappear, it becomes a
+different complaint, because the leaves now produce something that nothing consumes yet. That is 4.3.
 
 ## 4.3: Make the check real
 
 **Element:** `shippable:bar`
 
 The strategy is the one place in this file where a judgement belongs, and so the only place a
-threshold may appear. It declares what it needs, takes those values as parameters, and returns whether
-the bar is cleared:
+threshold may appear. It declares what it needs, takes those values as parameters, and returns
+whether the bar is cleared:
 
 ```python
 @jpipe(consume=["model", "metrics"])
 def the_measured_accuracy_clears_the_80_bar(model, metrics) -> bool:
 ```
 
-Note that `produce` is gone from both the decorator and the signature: this function produces nothing.
-Note also that every name in `consume=[]` must actually be used in the body. The decorator checks, and
-says so if you forget, which is a fair question to be asked: why declare a dependency you do not use?
+`produce` is gone from both the decorator and the signature, because this function produces nothing.
+Every name in `consume=[]` must also be used in the body: the decorator checks, and says so if you
+declare a dependency you do not use.
 
 **Done when:** the run is green, four passed and nothing failed.
 
@@ -130,16 +142,15 @@ strategy<shippable:bar>     :: The measured accuracy clears the 80%.. | PASS |
 conclusion<shippable:claim> :: The classifier is fit to ship          | PASS |
 ```
 
-The conclusion passes without you ever having written its body. The runner never calls it: a
-conclusion holds when everything under it holds, which is the entire reason for writing the argument
-down instead of just asserting it.
+The conclusion passes without you having written its body. The runner never calls it: a conclusion
+holds when everything under it holds.
 
 ## 4.4: Break it, twice
 
-A green run proves nothing on its own. An argument that cannot fail is not an argument, so make it
-fail, in two different ways, and watch the difference.
+A green run does not tell you the argument can fail. Make it fail, in two ways, and compare what the
+report does.
 
-**Lower the bar past what the model can meet.** Edit `accuracy` in
+**Lower the measurement past the bar.** Edit `accuracy` in
 [mocks/measurements.json](mocks/measurements.json) to `0.72` and run again:
 
 ```
@@ -147,7 +158,7 @@ strategy<shippable:bar>     :: ...clears the 80% bar    | FAIL |
 conclusion<shippable:claim> :: The classifier is fit... | SKIP |
 ```
 
-The facts still hold: the model is there, the report is there. What failed is the *judgement*, and the
+The facts still hold: the model is there, the report is there. What failed is the judgement, and the
 conclusion is no longer claimed.
 
 **Now take an artifact away.** Restore `0.818`, rename `mocks/model.txt`, and run again:
@@ -158,8 +169,8 @@ strategy<shippable:bar>     :: ...clears the 80% bar        | SKIP |
 conclusion<shippable:claim> :: The classifier is fit...     | SKIP |
 ```
 
-Different shape. The check was never even attempted, because a node whose support has failed is
-skipped rather than run. The runner will not let a judgement be made about a thing that is not there.
+A different shape. The check was never attempted, because a node whose support has failed is skipped
+rather than run, so no judgement is made about a thing that is not there.
 
 Put `model.txt` back when you are done.
 
@@ -168,12 +179,13 @@ Put `model.txt` back when you are done.
 ## 4.5: Hand it to a server
 
 Everything so far happened on your machine, with you watching. The compiled `.json` is the part that
-travels: the same argument can be re-checked somewhere nobody is watching, on somebody else's push,
-and say so when it stops holding. That is the right-hand side of the tool suite figure in the root
-[README](../../README.md), and it costs one file.
+travels: the same argument can be re-checked where nobody is watching, on somebody else's push. That
+is the right-hand side of the tool suite figure in the root [README](../../README.md), and it costs
+one file.
 
-This repository ships that job, in [.github/workflows/justification.yml](../../.github/workflows/justification.yml).
-Trimmed to its shape:
+This repository ships that job, in
+[.github/workflows/justification.yml](../../.github/workflows/justification.yml). Trimmed to its
+shape:
 
 ```yaml
 name: Justification (chapter 4)
@@ -220,10 +232,10 @@ jobs:
         run: pipenv run jpipe-runner -l solutions/bindings.py shippable.json
 ```
 
-Read what is *not* in it. Nothing about classifiers, and nothing that reads the report and decides
-what it meant. The last two steps are the two commands from 4.1, unchanged. The judgement stayed
-where you put it in 4.3, in the binding next to the element it belongs to, and the job goes red on
-its own because the runner exits non-zero as soon as a check fails.
+Read what is not in it. Nothing about classifiers, and nothing that reads the report and decides what
+it meant. The last two steps are the two commands from 4.1, unchanged. The judgement stayed where you
+put it in 4.3, in the binding next to the element it belongs to, and the job goes red on its own
+because the runner exits non-zero as soon as a check fails.
 
 Four details worth naming:
 
@@ -232,13 +244,13 @@ Four details worth naming:
   push would be red on purpose too. In your own project that trigger is one line: `on: push`.
 - **It runs [solutions/bindings.py](solutions/bindings.py)**, the finished layer, not the one you are
   filling in. Your own runs stay local until the exercise is done.
-- **Both tools are pinned**, the compiler by `JPIPE_VERSION` and the runner by `Pipfile.lock`. An
-  argument whose verdict changes overnight because a tool updated itself is not much of an argument.
+- **Both tools are pinned**, the compiler by `JPIPE_VERSION` and the runner by `Pipfile.lock`, so a
+  verdict does not change overnight because a tool updated itself.
 - **The four inputs are there to let you break it.** They set environment variables that
-  [solutions/bindings.py](solutions/bindings.py) reads in place of `mocks/`, so 4.4's two failures can
-  be produced from a browser: lower `accuracy` past the bar, or set `model` to `no`. Left alone, they
-  are what `mocks/` already says and the run is the green one. A project of your own needs none of
-  this: the accuracy comes from the run that measured it, and the bar lives in the code.
+  [solutions/bindings.py](solutions/bindings.py) reads in place of `mocks/`, so 4.4's two failures
+  can be produced from a browser: lower `accuracy` past the bar, or set `model` to `no`. Left alone,
+  they are what `mocks/` already says and the run is the green one. A project of your own needs none
+  of this: the accuracy comes from the run that measured it, and the bar lives in the code.
 
 Run it from the **Actions** tab, **Justification (chapter 4)**, **Run workflow**, on your own fork.
 Leave the inputs alone the first time. Then open the last step in the log: it is the same four-line
@@ -248,9 +260,9 @@ report you got in 4.3, printed by a machine that has never seen your laptop.
 
 ## Where this goes
 
-The argument is now attached to the world, it moves when the world moves, and something other than you
-re-checks it. That is the whole idea. What has not changed is that you wrote it whole, by yourself, in
-one file, and chapter 5 is where that stops: arguments owned by different people and gathered without
-rewriting, and leaves that turn out to need an argument of their own.
+The argument is attached to the world now, and something other than you re-checks it. What has not
+changed is that you wrote it whole, by yourself, in one file. Chapter 5 is where that stops:
+arguments owned by different people and gathered without rewriting, and leaves that turn out to need
+an argument of their own.
 
 Worked answers are in [solutions/bindings.py](solutions/bindings.py). Read them after you have tried.
