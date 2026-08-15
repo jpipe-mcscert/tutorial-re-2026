@@ -14,31 +14,19 @@ which file to crib from.
 
 ## The scenario
 
-The classifier from the [emotion detection case
-study](https://github.com/jpipe-mcscert/jpipe-tutorial-2026) is measured three ways. Chapter 2 argued
-about two of them: it is **fair** (its predictions do not change when only a person's identity does)
-and it is **performant** (it gets enough answers right).
-
-The third is the one you will argue about here: the classifier **fails gracefully**. Eight emotions
-sit on a wheel, so a wrong answer can be a near-miss or the exact opposite. A model that mistakes
-*joy* for *trust* is wrong in a way you can live with; one that mistakes *joy* for *sadness* is not.
-The **severe-error rate** counts how often it is wrong in the second way, and the bar is **5%**.
-
-Here is what the case study measured, for the three candidate models it built:
+You argue one claim here: the classifier from the [emotion detection case
+study](https://github.com/jpipe-mcscert/jpipe-tutorial-2026) **fails gracefully**. The
+**severe-error rate** is the share of answers that land on the far side of the emotion wheel, as
+chapter 1 set out in 1.3, and the bar is **5%**.
 
 ![Full metric dashboard for three candidate models: model A, model B and model C, each with accuracy,
 macro-F1, flip-rate, mean distance and severe errors](../../images/three_models_full_dashboard.svg)
 
-Read the bottom row. **Model C** scores 0.030 on severe errors and clears the 5% bar; **model B**
-scores 0.051 and does not. Model C is the one you will be arguing about.
+Bottom row: **model C** scores 0.030 and clears the bar, where model B scores 0.051 and does not.
+Model C is the model you are arguing about.
 
-Two decisions come out of that table, and neither is readable from it. Shipping model C rather than A
-or B is one: model A wins the top two rows outright and is still not the model to ship, because its
-flip-rate of 0.613 means it changes its prediction for six people in ten when nothing changes but
-their identity. Setting the severe-error bar at 5% rather than 3% or 10% is the other.
-
-The argument you are about to write is where those decisions are recorded: this model, held to this
-bar, on the strength of this evidence.
+Neither that choice of model nor the 5% bar can be read off the table, and the argument you are about
+to write is where both are recorded: this model, held to this bar, on the strength of this evidence.
 
 ## How to work
 
