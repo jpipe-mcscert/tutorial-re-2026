@@ -30,32 +30,25 @@ to write is where both are recorded: this model, held to this bar, on the streng
 
 ## How to work
 
-Fill in the stub, then ask the compiler what is still missing. There are two ways to ask, and they
-report the same thing.
+Set the window up once, and keep it for all three exercises: three columns, with the chapter 2 file
+you are cribbing from, the stub you are filling in, and the preview beside them.
 
-**In the editor.** Open the stub, then open its preview from the preview icon in the editor title
-bar, or by right-clicking and choosing **jPipe**, then *Open Diagram Preview*. The **notepad icon at
-the top right of the preview panel** switches it between the diagram and the diagnostic view, where
-the *Problems* tab lists what the compiler has to say. It is the last icon in the toolbar and stays
-there whatever the panel is showing. The report is redrawn every time you save, which makes this the
-shorter loop of the two.
+Open the chapter 2 file first, then put the stub next to it by dragging its tab to the right-hand
+side of the window, by right-clicking the tab and choosing **Split Right**, or with `⌘\` / `Ctrl+\`.
+With the cursor in the stub, open the preview from the preview icon in the editor title bar, or by
+right-clicking and choosing **jPipe**, then *Open Diagram Preview*: it opens in a column beside the
+file and keeps the focus where you are typing.
 
-**On the command line.** From this directory:
+Then work from what the compiler says. The **notepad icon at the top right of the preview panel**
+switches it between the diagram and the diagnostic view, where the *Problems* tab lists what is
+missing. It is the last icon in the toolbar whatever the panel is showing, and the report is redrawn
+every time you save.
 
-```sh
-jpipe diagnostic -i exercises/01_graceful.jd
-```
-
-Either way, look before you write anything. Each stub is deliberately incomplete, and each exercise
-below opens with the errors it starts on. Those errors are your checklist, and you are done when the
-*Problems* tab is empty or the command reports `(none)`.
+Look before you write. Each stub is deliberately incomplete, and each exercise below opens with the
+errors it starts on. Those errors are your checklist, and you are done when *Problems* is empty.
 
 To keep a diagram rather than look at it, use the download icon in the preview toolbar and pick a
-format, right-click and choose **jPipe**, then *Download as SVG*, or run:
-
-```sh
-jpipe process -f svg -i exercises/01_graceful.jd -m graceful -o graceful.svg
-```
+format, or right-click and choose **jPipe**, then *Download as SVG*.
 
 Worked answers are in [solutions/](solutions/). Read them after you have tried, not before.
 
