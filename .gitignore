@@ -15,15 +15,18 @@ CLAUDE.md
 !part_1/chapter_2/deployable.json
 
 # Chapter 4's execution layer is hand-written content: the bindings participants fill in,
-# and the mocked artifacts the argument reads. The compiled shippable.json is NOT here on
-# purpose: it is compiler output, and 4.1 has participants generate it themselves.
+# and the mocked artifacts the argument reads. The compiled shippable.json is kept too,
+# even though it is compiler output, so that the CI job can run the argument without
+# installing a compiler. 4.1 still has participants generate it, over the top of this one.
 !part_2/chapter_4/exercises/*.py
 !part_2/chapter_4/solutions/*.py
 !part_2/chapter_4/mocks/measurements.json
+!part_2/chapter_4/shippable.json
 
-# Figures are drawn by hand, not rendered by jPipe. Everything under images/ is kept,
-# whatever its extension.
+# Figures are drawn by hand, not rendered by jPipe. Everything under an images/ directory
+# is kept, whatever its extension and wherever that directory sits.
 !images/**
+!**/images/**
 
 # Python artefacts
 __pycache__/

@@ -24,7 +24,7 @@ scores as equals, so an emotion the model has given up on drags it down no matte
 emotion appears. When the two numbers sit close together, no emotion is being abandoned.
 
 ![Two metrics for three candidate models: accuracy and macro-F1 for model A, model B and model C, with
-an arrow marking that higher is better](../../images/three_models_performance_only.svg)
+an arrow marking that higher is better](images/three_models_performance_only.svg)
 
 **Which one do you ship?**
 
@@ -51,7 +51,7 @@ times. When it is not, that group has **flipped**. Flip-rate is the share of gro
 lower is fairer.
 
 ![The same three models with a third metric added: the counterfactual flip-rate, where model A flips
-often and models B and C never flip](../../images/three_models_self_contained_cards.svg)
+often and models B and C never flip](images/three_models_self_contained_cards.svg)
 
 **Now which one do you ship?**
 
@@ -82,7 +82,7 @@ what the person said. **Mean distance** is how far around the wheel its mistakes
 reaches the far side of the wheel. The bar the case study holds itself to is **5%**.
 
 ![Full metric dashboard for three candidate models: model A, model B and model C, each with accuracy,
-macro-F1, flip-rate, mean distance and severe errors](../../images/three_models_full_dashboard.svg)
+macro-F1, flip-rate, mean distance and severe errors](images/three_models_full_dashboard.svg)
 
 **Last time. Which one do you ship?**
 

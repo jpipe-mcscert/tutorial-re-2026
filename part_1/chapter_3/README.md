@@ -20,7 +20,7 @@ study](https://github.com/jpipe-mcscert/jpipe-tutorial-2026) **fails gracefully*
 chapter 1 set out in 1.3, and the bar is **5%**.
 
 ![Full metric dashboard for three candidate models: model A, model B and model C, each with accuracy,
-macro-F1, flip-rate, mean distance and severe errors](../../images/three_models_full_dashboard.svg)
+macro-F1, flip-rate, mean distance and severe errors](../chapter_1/images/three_models_full_dashboard.svg)
 
 Bottom row: **model C** scores 0.030 and clears the bar, where model B scores 0.051 and does not.
 Model C is the model you are arguing about.
