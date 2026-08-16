@@ -40,6 +40,7 @@ def a_performance_threshold_is_agreed_upon_80(produce: JpipeProduce) -> bool:
 @jpipe(produce=["trained_model"])
 def the_model_is_available(produce: JpipeProduce) -> bool:
     """[evidence] The model is available"""
+    # Real code goes here (file exists, load file, ...)
     produce("trained_model", "emotion-classifier-c")
     return True
 
