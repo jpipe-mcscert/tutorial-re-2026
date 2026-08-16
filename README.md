@@ -14,16 +14,24 @@ it against the artifacts it claims exist.
 The tutorial runs in **two parts of three chapters each**, and a chapter ships whichever of these it
 needs:
 
-- **examples**, the `.jd` models shown on those slides, in runnable form;
+- **examples**, the `.jd` models shown in the slides, in runnable form;
 - **exercises**, what participants write themselves;
 - **solutions**, one worked answer per exercise.
-
 
 The running example throughout is the **emotion detection case study**
 ([jpipe-tutorial-2026](https://github.com/jpipe-mcscert/jpipe-tutorial-2026)): a classifier that is
 accurate, fair, and gracefully failing to different degrees across three versions. Its deployability is
 the claim the justification models argue about, which is why the examples talk about flip-rate,
 accuracy, and test datasets.
+
+## Slides
+
+What is presented on the day, one deck per part:
+
+- **[Part 1](slides/jPipe_RE_I.pdf)**, chapters 1 to 3: the decision a justification records, the
+  language it is written in, and writing models yourself.
+- **[Part 2](slides/jPipe_RE_II.pdf)**, chapters 4 to 6: running a model against the artifacts it
+  names, composing models across files and owners, and the closing discussion.
 
 ## The tool suite
 
